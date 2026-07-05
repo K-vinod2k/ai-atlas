@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Atlas
 
-## Getting Started
+Interactive learning app for the AI Landscape Map — explore ~165 taxonomy nodes with definitions, math, cross-links, a live news feed, and an offline guide agent.
 
-First, run the development server:
+## Features
+
+- **Explore** — zoomable tree + node detail pages with KaTeX math formulas and symbol walkthroughs
+- **News** — arXiv (cs.LG/cs.CL/cs.AI), Hacker News, and lab blog RSS, auto-tagged to map nodes
+- **Guide** — deterministic local agent (no API key): explain, compare, route, navigate
+
+## Setup
 
 ```bash
+cd ai-atlas
+npm install
+cp .env.example .env
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) — redirects to `/explore`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Default | Description |
+|---|---|---|
+| `DATABASE_URL` | `./data/ai-atlas.db` | SQLite database path |
+| `AGENT_PROVIDER` | `local` | `local`, `anthropic`, or `openai` |
+| `ANTHROPIC_API_KEY` | — | Dormant until set |
+| `OPENAI_API_KEY` | — | Dormant until set |
+| `FEED_STALE_HOURS` | `6` | Hours before feed is considered stale |
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev          # Development server
+npm run build        # Production build
+npm run start        # Start production server
+npm run typecheck    # TypeScript check
+npm run test         # Integration tests
+npm run db:generate  # Drizzle migrations
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  data/          taxonomy.ts — single source of truth (~165 nodes)
+  app/           Next.js pages and API routes
+  components/    Explore, feed, and agent UI
+  db/            Drizzle + SQLite schema
+  lib/           Feed fetchers, agent providers
+```
 
-## Deploy on Vercel
+## Data sources
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Taxonomy ported from the AI Landscape Map canvas (`AI-landscape-map.canvas.tsx`). Node knowledge lives in `src/data/taxonomy.ts`; news items live in SQLite.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Agent commands
+
+- `explain attention` — node definition + math
+- `compare RAG vs fine-tuning` — side-by-side
+- `route MCP` — which layer a term belongs to
+- `find transformer` — search nodes
+- `help` — list commands
+
+## Branch
+
+Development on `feature/ai-atlas-v1`.
