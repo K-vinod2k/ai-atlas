@@ -1,0 +1,23 @@
+---
+description: Use ui-ux-pro-max skill for all UI/UX design work
+globs: "**/*.{tsx,jsx,css,html,vue,svelte}"
+alwaysApply: false
+---
+
+# UI/UX Design — ui-ux-pro-max
+
+For any UI/UX design, layout, styling, or visual review work in this project:
+
+1. **Read the skill first:** `~/.cursor/skills/ui-ux-pro-max/SKILL.md`
+2. **Generate a design system** before implementing:
+   ```bash
+   python3 ~/.cursor/skills/ui-ux-pro-max/scripts/search.py "<product> <industry> <keywords>" --design-system -p "AI Atlas"
+   ```
+3. **Follow stack guidelines** for Next.js + Tailwind:
+   ```bash
+   python3 ~/.cursor/skills/ui-ux-pro-max/scripts/search.py "<topic>" --stack nextjs
+   ```
+4. **Persist design tokens** when building multiple pages (`--persist` flag).
+5. Run pre-delivery checklist from the skill before finishing.
+
+Source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
