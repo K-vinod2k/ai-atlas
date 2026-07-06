@@ -12,9 +12,9 @@ import { tagFeedItem } from "@/lib/feed/tagger";
 import { refreshFeed } from "@/lib/feed/refresh";
 
 describe("AI Atlas integration", () => {
-  it("taxonomy has ~165 nodes", () => {
-    expect(taxonomyIndex.count).toBeGreaterThan(150);
-    expect(taxonomyIndex.count).toBeLessThan(180);
+  it("taxonomy has ~220 nodes after lablab.ai enrichment", () => {
+    expect(taxonomyIndex.count).toBeGreaterThan(200);
+    expect(taxonomyIndex.count).toBeLessThan(260);
   });
 
   it("search finds attention node", () => {

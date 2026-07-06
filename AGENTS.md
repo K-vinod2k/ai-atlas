@@ -2,7 +2,7 @@
 
 ## Project
 
-Local-first Next.js learning app for the AI Landscape Map taxonomy (~165 nodes).
+Local-first Next.js learning app for the AI Landscape Map taxonomy (~220 nodes).
 
 ## Stack
 
