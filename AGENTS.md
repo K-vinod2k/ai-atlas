@@ -37,6 +37,16 @@ src/
 - UI: flat design, no emojis, no gradients, consistent 4/8/16/24px spacing
 - Every async operation needs loading + error states
 
+## UI/UX design
+
+All UI/UX work must follow the **ui-ux-pro-max** skill:
+
+- Skill file: `~/.cursor/skills/ui-ux-pro-max/SKILL.md`
+- Repo: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+- Before designing: run the design-system generator (`scripts/search.py --design-system`)
+- Stack: Next.js + Tailwind (`--stack nextjs`)
+- Persist tokens to `design-system/MASTER.md` for multi-page consistency
+
 ## Commands
 
 ```bash

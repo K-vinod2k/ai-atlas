@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import type { IndexedNode, NodeKind } from "@/data/types";
 import { nodeSearchText } from "@/data/taxonomy";
 
@@ -118,12 +118,13 @@ export function TreeSidebar({ roots, allNodes, selectedId }: TreeSidebarProps) {
             <button
               type="button"
               onClick={() => selectNode(n.id)}
-              className={`w-full flex items-center gap-2 px-2 py-1.5 rounded text-left text-sm ${
+              className={`w-full flex items-center gap-1.5 px-2 py-2 rounded-lg text-left text-sm cursor-pointer transition-colors duration-200 ${
                 isSelected
-                  ? "bg-neutral-100 text-neutral-900 font-medium"
-                  : "text-neutral-600 hover:bg-neutral-50"
+                  ? "bg-primary/10 text-primary font-semibold"
+                  : "text-foreground/80 hover:bg-primary/5"
               }`}
               style={{ paddingLeft: depth * 16 + 8 }}
+              aria-current={isSelected ? "page" : undefined}
             >
               {hasChildren ? (
                 <span
@@ -139,14 +140,19 @@ export function TreeSidebar({ roots, allNodes, selectedId }: TreeSidebarProps) {
                       toggle(n.id);
                     }
                   }}
-                  className="w-3 text-neutral-400 text-xs select-none"
+                  className="w-5 h-5 flex items-center justify-center shrink-0 text-muted-foreground cursor-pointer"
+                  aria-label={isOpen ? "Collapse" : "Expand"}
                 >
-                  {isOpen ? "\u25be" : "\u25b8"}
+                  {isOpen ? (
+                    <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
+                  ) : (
+                    <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  )}
                 </span>
               ) : (
-                <span className="w-3 text-neutral-300 text-xs">·</span>
+                <span className="w-5 h-5 shrink-0" aria-hidden="true" />
               )}
-              <span className={isHit ? "font-semibold" : ""}>{n.name}</span>
+              <span className={isHit ? "font-semibold text-primary" : ""}>{n.name}</span>
             </button>
             {hasChildren && isOpen && renderLevel(childNodes, depth + 1)}
           </div>
@@ -156,35 +162,53 @@ export function TreeSidebar({ roots, allNodes, selectedId }: TreeSidebarProps) {
   );
 
   const topChildren = roots;
+  const hasResults = active
+    ? Array.from(subtreeMatch.values()).some(Boolean)
+    : true;
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-neutral-200 space-y-3">
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search terms..."
-          className="w-full px-3 py-2 text-sm border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-400"
-        />
-        <div className="flex flex-wrap gap-1">
+    <div className="flex flex-col h-full bg-surface">
+      <div
+        className="p-4 border-b space-y-3"
+        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+      >
+        <div className="relative">
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"
+            aria-hidden="true"
+          />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search terms..."
+            aria-label="Search taxonomy terms"
+            className="input-field pl-9"
+          />
+        </div>
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter by kind">
           {KIND_OPTIONS.map((k) => (
             <button
               key={k.id}
               type="button"
               onClick={() => setKindFilter(k.id)}
-              className={`text-xs px-2 py-1 rounded border ${
-                kindFilter === k.id
-                  ? "bg-neutral-800 text-white border-neutral-800"
-                  : "bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50"
-              }`}
+              className={`filter-pill ${kindFilter === k.id ? "filter-pill-active" : ""}`}
+              aria-pressed={kindFilter === k.id}
             >
               {k.label}
             </button>
           ))}
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto p-2">{renderLevel(topChildren, 0)}</div>
+      <div className="flex-1 overflow-y-auto p-2">
+        {!hasResults ? (
+          <p className="px-3 py-6 text-sm text-muted-foreground text-center">
+            No terms match your search.
+          </p>
+        ) : (
+          renderLevel(topChildren, 0)
+        )}
+      </div>
     </div>
   );
 }

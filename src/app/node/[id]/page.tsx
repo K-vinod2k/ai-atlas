@@ -25,11 +25,17 @@ export default async function NodePage({ params }: NodePageProps) {
 
   return (
     <AppShell>
-      <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-0 border border-neutral-200 rounded-lg bg-white overflow-hidden min-h-[600px]">
-        <div className="border-r border-neutral-200 md:max-h-[calc(100vh-12rem)] md:overflow-hidden">
+      <div
+        className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-0 rounded-xl bg-surface overflow-hidden min-h-[600px] shadow-md border"
+        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+      >
+        <div
+          className="border-r md:max-h-[calc(100vh-10rem)] md:overflow-hidden"
+          style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+        >
           <TreeSidebar roots={roots} allNodes={allNodes} selectedId={id} />
         </div>
-        <div className="p-6 overflow-y-auto">
+        <div className="p-6 lg:p-8 overflow-y-auto pb-24 lg:pb-8">
           <NodeDetail node={indexed.node} path={path} />
         </div>
       </div>

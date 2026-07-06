@@ -2,6 +2,7 @@
 
 import "katex/dist/katex.min.css";
 import { BlockMath } from "react-katex";
+import { Sigma } from "lucide-react";
 import type { NodeMath } from "@/data/types";
 
 interface MathBlockProps {
@@ -10,21 +11,37 @@ interface MathBlockProps {
 
 export function MathBlock({ math }: MathBlockProps) {
   return (
-    <section className="border border-neutral-200 rounded-lg p-4 bg-neutral-50">
-      <h3 className="text-sm font-semibold text-neutral-700 mb-2">{math.title}</h3>
-      <div className="overflow-x-auto mb-3">
+    <section
+      className="rounded-xl p-5 lg:p-6"
+      style={{
+        background: "color-mix(in srgb, var(--color-muted) 60%, var(--color-surface))",
+        border: "1px solid color-mix(in srgb, var(--color-border) 40%, transparent)",
+      }}
+    >
+      <div className="flex items-center gap-2 mb-3">
+        <Sigma className="w-4 h-4 text-primary" aria-hidden="true" />
+        <h3
+          className="text-sm font-semibold text-foreground"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
+          {math.title}
+        </h3>
+      </div>
+      <div className="overflow-x-auto mb-4 p-3 rounded-lg bg-surface">
         <BlockMath math={math.formula} />
       </div>
-      <p className="text-sm text-neutral-600 mb-4">{math.summary}</p>
+      <p className="text-sm text-foreground/80 mb-5">{math.summary}</p>
       <div className="space-y-2">
-        <p className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">
-          Symbols
-        </p>
-        <dl className="grid gap-2">
+        <p className="section-label">Symbols</p>
+        <dl className="grid gap-2 mt-2">
           {math.symbols.map((s) => (
             <div key={s.symbol} className="flex gap-3 text-sm">
-              <dt className="font-mono text-neutral-800 min-w-[3rem]">{s.symbol}</dt>
-              <dd className="text-neutral-600">{s.meaning}</dd>
+              <dt
+                className="font-mono text-primary font-medium min-w-[3rem]"
+              >
+                {s.symbol}
+              </dt>
+              <dd className="text-foreground/80">{s.meaning}</dd>
             </div>
           ))}
         </dl>

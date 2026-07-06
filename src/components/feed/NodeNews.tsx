@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getNodeById } from "@/data/taxonomy";
+import { ExternalLink, Loader2 } from "lucide-react";
+import type { NewsItem } from "@/db/schema";
 
 interface NodeNewsProps {
   nodeId: string;
@@ -28,22 +29,33 @@ export function NodeNews({ nodeId }: NodeNewsProps) {
 
   if (loading) {
     return (
-      <section className="border-t border-neutral-200 pt-6">
-        <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">
-          What&apos;s new
-        </h2>
-        <p className="text-sm text-neutral-400">Loading news...</p>
+      <section
+        className="border-t pt-6"
+        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+      >
+        <h2 className="section-label mb-3">What&apos;s new</h2>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground" role="status">
+          <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+          <span>Loading news...</span>
+        </div>
+        <div className="space-y-2 mt-3">
+          <div className="skeleton h-4 w-full" />
+          <div className="skeleton h-4 w-4/5" />
+        </div>
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="border-t border-neutral-200 pt-6">
-        <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">
-          What&apos;s new
-        </h2>
-        <p className="text-sm text-red-600">{error}</p>
+      <section
+        className="border-t pt-6"
+        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+      >
+        <h2 className="section-label mb-3">What&apos;s new</h2>
+        <p className="text-sm text-destructive" role="alert">
+          {error}
+        </p>
       </section>
     );
   }
@@ -51,10 +63,11 @@ export function NodeNews({ nodeId }: NodeNewsProps) {
   if (items.length === 0) return null;
 
   return (
-    <section className="border-t border-neutral-200 pt-6">
-      <h2 className="text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-3">
-        What&apos;s new
-      </h2>
+    <section
+      className="border-t pt-6"
+      style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+    >
+      <h2 className="section-label mb-3">What&apos;s new</h2>
       <ul className="space-y-3">
         {items.map((item) => (
           <li key={item.id} className="text-sm">
@@ -62,15 +75,22 @@ export function NodeNews({ nodeId }: NodeNewsProps) {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-neutral-800 hover:underline font-medium"
+              className="text-foreground hover:text-primary font-medium transition-colors duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
             >
               {item.title}
+              <ExternalLink
+                className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                aria-hidden="true"
+              />
             </a>
-            <span className="text-neutral-400 ml-2">{item.source}</span>
+            <span className="text-muted-foreground ml-2">{item.source}</span>
           </li>
         ))}
       </ul>
-      <Link href="/feed" className="text-sm text-neutral-600 hover:underline mt-2 inline-block">
+      <Link
+        href="/feed"
+        className="text-sm text-primary hover:underline mt-3 inline-block cursor-pointer transition-colors duration-200"
+      >
         View all news
       </Link>
     </section>

@@ -15,11 +15,18 @@ export default async function FeedPage() {
 
   return (
     <AppShell>
-      <div className="max-w-3xl">
-        <h1 className="text-2xl font-semibold text-neutral-900 mb-2">News Feed</h1>
-        <p className="text-sm text-neutral-500 mb-6">
-          arXiv, Hacker News, and lab blogs auto-tagged to map nodes.
-        </p>
+      <div className="max-w-3xl pb-24 lg:pb-0">
+        <header className="mb-8">
+          <h1
+            className="text-2xl lg:text-3xl font-semibold text-foreground mb-2"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            News Feed
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            arXiv, Hacker News, and lab blogs auto-tagged to map nodes.
+          </p>
+        </header>
         <FeedList
           initialItems={items}
           lastRefresh={lastRefresh}

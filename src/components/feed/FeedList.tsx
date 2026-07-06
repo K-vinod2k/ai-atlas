@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ExternalLink, Loader2, RefreshCw } from "lucide-react";
 import { getNodeById } from "@/data/taxonomy";
 import type { NewsItem } from "@/db/schema";
 
@@ -47,38 +48,70 @@ export function FeedList({ initialItems, lastRefresh, isStale }: FeedListProps) 
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <p className="text-sm text-neutral-500">
+          <p className="text-sm text-muted-foreground">
             {lastRefresh
               ? `Last refreshed: ${new Date(lastRefresh).toLocaleString()}`
               : "Never refreshed"}
             {isStale && (
-              <span className="ml-2 text-amber-700">Feed may be stale</span>
+              <span className="ml-2 text-accent font-medium">Feed may be stale</span>
             )}
           </p>
           {refreshInfo && (
-            <p className="text-sm text-neutral-600 mt-1">{refreshInfo}</p>
+            <p className="text-sm text-foreground/80 mt-1">{refreshInfo}</p>
           )}
         </div>
         <button
           type="button"
           onClick={refresh}
           disabled={loading}
-          className="px-4 py-2 text-sm font-medium bg-neutral-800 text-white rounded-md hover:bg-neutral-700 disabled:opacity-50"
+          className="btn-primary"
+          aria-label="Refresh news feed"
         >
-          {loading ? "Refreshing..." : "Refresh feed"}
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+              Refreshing...
+            </>
+          ) : (
+            <>
+              <RefreshCw className="w-4 h-4" aria-hidden="true" />
+              Refresh feed
+            </>
+          )}
         </button>
       </div>
 
       {error && (
-        <div className="border border-red-200 bg-red-50 text-red-800 text-sm rounded-lg p-4">
+        <div
+          className="text-sm rounded-xl p-4 text-destructive"
+          style={{
+            border: "1px solid color-mix(in srgb, var(--color-destructive) 30%, transparent)",
+            background: "color-mix(in srgb, var(--color-destructive) 8%, var(--color-surface))",
+          }}
+          role="alert"
+        >
           {error}
         </div>
       )}
 
-      {items.length === 0 && !loading && (
-        <p className="text-neutral-500 text-sm">
-          No news items yet. Click Refresh to pull from arXiv, Hacker News, and lab blogs.
-        </p>
+      {loading && items.length === 0 && (
+        <div className="space-y-4" aria-label="Loading feed" role="status">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="card space-y-3" style={{ padding: "1.25rem" }}>
+              <div className="skeleton h-5 w-3/4" />
+              <div className="skeleton h-3 w-1/3" />
+              <div className="skeleton h-4 w-full" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {!loading && items.length === 0 && (
+        <div className="card text-center py-8">
+          <p className="text-muted-foreground text-sm">
+            No news items yet. Click Refresh to pull from arXiv, Hacker News, and lab blogs.
+          </p>
+        </div>
       )}
 
       <ul className="space-y-4">
@@ -92,46 +125,59 @@ export function FeedList({ initialItems, lastRefresh, isStale }: FeedListProps) 
 
 function FeedItemRow({ item }: { item: NewsItem }) {
   const [tags, setTags] = useState<string[]>([]);
+  const [tagsLoading, setTagsLoading] = useState(true);
 
   useEffect(() => {
+    setTagsLoading(true);
     fetch(`/api/feed/tags/${item.id}`)
       .then((r) => r.json())
       .then((d: { nodeIds: string[] }) => setTags(d.nodeIds))
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setTagsLoading(false));
   }, [item.id]);
 
   return (
-    <li className="border border-neutral-200 rounded-lg p-4 bg-white">
+    <li className="card card-interactive">
       <a
         href={item.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-neutral-900 font-medium hover:underline"
+        className="text-foreground font-semibold hover:text-primary transition-colors duration-200 inline-flex items-start gap-1.5 group"
+        style={{ fontFamily: "var(--font-heading)" }}
       >
         {item.title}
+        <ExternalLink
+          className="w-3.5 h-3.5 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0"
+          aria-hidden="true"
+        />
       </a>
-      <p className="text-xs text-neutral-400 mt-1">
+      <p className="text-xs text-muted-foreground mt-1.5">
         {item.source} · {new Date(item.publishedAt).toLocaleDateString()}
       </p>
       {item.summary && (
-        <p className="text-sm text-neutral-600 mt-2 line-clamp-2">{item.summary}</p>
+        <p className="text-sm text-foreground/80 mt-2 line-clamp-2">{item.summary}</p>
       )}
-      {tags.length > 0 && (
-        <div className="flex flex-wrap gap-1 mt-2">
+      {tagsLoading ? (
+        <div className="flex gap-1.5 mt-3">
+          <div className="skeleton h-5 w-16 rounded-full" />
+          <div className="skeleton h-5 w-20 rounded-full" />
+        </div>
+      ) : tags.length > 0 ? (
+        <div className="flex flex-wrap gap-1.5 mt-3">
           {tags.map((nodeId) => {
             const indexed = getNodeById(nodeId);
             return indexed ? (
               <Link
                 key={nodeId}
                 href={`/node/${nodeId}`}
-                className="text-xs px-2 py-0.5 rounded border border-neutral-200 text-neutral-600 hover:bg-neutral-50"
+                className="badge badge-primary text-xs hover:bg-primary/20 transition-colors duration-200 cursor-pointer"
               >
                 {indexed.node.name}
               </Link>
             ) : null;
           })}
         </div>
-      )}
+      ) : null}
     </li>
   );
 }
