@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   AlertTriangle,
   BookOpen,
@@ -77,6 +79,12 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
             </p>
           </div>
         </div>
+      )}
+
+      {rich?.explanation && (
+        <section className="prose-skillup">
+          <Markdown remarkPlugins={[remarkGfm]}>{rich.explanation}</Markdown>
+        </section>
       )}
 
       {rich?.analogy && <AnalogyCard analogy={rich.analogy} />}
@@ -175,15 +183,20 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
       {node.children && node.children.length > 0 && (
         <section>
           <h2 className="section-label mb-3">Breaks down into</h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid gap-3 sm:grid-cols-2">
             {node.children.map((child) => (
               <button
                 key={child.id}
                 type="button"
                 onClick={() => onSelectNode(child.id)}
-                className="link-pill"
+                className="card card-interactive text-left !p-4"
               >
-                {child.name}
+                <p className="text-sm font-semibold text-foreground">
+                  {child.name}
+                </p>
+                <p className="mt-1 text-xs text-[color:var(--color-foreground)]/70 leading-relaxed">
+                  {child.one}
+                </p>
               </button>
             ))}
           </div>

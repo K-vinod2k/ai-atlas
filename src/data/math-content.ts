@@ -289,4 +289,235 @@ export const MATH_BY_NODE_ID: Record<string, NodeMath> = {
       { symbol: "KL", meaning: "Kullback-Leibler divergence" },
     ],
   },
+  svm: {
+    title: "Maximum-Margin Objective",
+    formula: "\\min_{\\mathbf{w},b} \\frac{1}{2}\\|\\mathbf{w}\\|^2 \\quad \\text{s.t.} \\quad y_i(\\mathbf{w}^T\\mathbf{x}_i + b) \\geq 1",
+    summary:
+      "Finds the separating hyperplane that maximizes the distance (margin) to the closest points of each class; the margin width is 2/||w||.",
+    symbols: [
+      { symbol: "\\mathbf{w}", meaning: "Normal vector defining the separating hyperplane" },
+      { symbol: "b", meaning: "Offset of the hyperplane from the origin" },
+      { symbol: "y_i", meaning: "Class label of example i, either +1 or -1" },
+      { symbol: "\\mathbf{x}_i", meaning: "Feature vector of example i; those on the margin are support vectors" },
+    ],
+  },
+  kmeans: {
+    title: "k-Means Objective",
+    formula: "J = \\sum_{j=1}^{k} \\sum_{\\mathbf{x} \\in C_j} \\|\\mathbf{x} - \\boldsymbol{\\mu}_j\\|^2",
+    summary:
+      "Minimizes the total squared distance between each point and the centroid of its assigned cluster, alternating assignment and centroid-update steps.",
+    symbols: [
+      { symbol: "k", meaning: "Number of clusters, chosen in advance" },
+      { symbol: "C_j", meaning: "Set of points currently assigned to cluster j" },
+      { symbol: "\\boldsymbol{\\mu}_j", meaning: "Centroid (mean) of cluster j" },
+      { symbol: "J", meaning: "Within-cluster sum of squares being minimized" },
+    ],
+  },
+  nb: {
+    title: "Naive Bayes Classifier",
+    formula: "P(y \\mid \\mathbf{x}) \\propto P(y) \\prod_{i=1}^{n} P(x_i \\mid y)",
+    summary:
+      "Applies Bayes' rule with the simplifying assumption that features are conditionally independent given the class, making the joint probability a simple product.",
+    symbols: [
+      { symbol: "P(y)", meaning: "Prior probability of class y from training frequencies" },
+      { symbol: "P(x_i \\mid y)", meaning: "Likelihood of feature i's value given the class" },
+      { symbol: "\\propto", meaning: "Proportional to — the evidence term P(x) is the same for all classes" },
+      { symbol: "n", meaning: "Number of features, each treated as independent" },
+    ],
+  },
+  bayesian: {
+    title: "Bayes' Theorem",
+    formula: "P(H \\mid D) = \\frac{P(D \\mid H)\\, P(H)}{P(D)}",
+    summary:
+      "Updates belief in a hypothesis after seeing data: posterior equals likelihood times prior, normalized by the evidence.",
+    symbols: [
+      { symbol: "P(H \\mid D)", meaning: "Posterior — belief in hypothesis H after observing data D" },
+      { symbol: "P(D \\mid H)", meaning: "Likelihood — how probable the data is if H were true" },
+      { symbol: "P(H)", meaning: "Prior — belief in H before seeing the data" },
+      { symbol: "P(D)", meaning: "Evidence — total probability of the data under all hypotheses" },
+    ],
+  },
+  gan: {
+    title: "GAN Minimax Objective",
+    formula: "\\min_G \\max_D \\; \\mathbb{E}_{x}[\\log D(x)] + \\mathbb{E}_{z}[\\log(1 - D(G(z)))]",
+    summary:
+      "The discriminator learns to tell real data from fakes while the generator learns to fool it — a two-player game whose equilibrium is realistic generation.",
+    symbols: [
+      { symbol: "G", meaning: "Generator mapping random noise z to synthetic samples" },
+      { symbol: "D", meaning: "Discriminator outputting the probability a sample is real" },
+      { symbol: "x", meaning: "Real sample drawn from the training data" },
+      { symbol: "z", meaning: "Random noise vector the generator transforms" },
+    ],
+  },
+  autoencoder: {
+    title: "VAE Evidence Lower Bound (ELBO)",
+    formula: "\\mathcal{L} = \\mathbb{E}_{q(z|x)}[\\log p(x \\mid z)] - \\text{KL}\\big(q(z \\mid x) \\,\\|\\, p(z)\\big)",
+    summary:
+      "A VAE maximizes reconstruction quality while keeping the learned latent distribution close to a simple prior, so the latent space is smooth and sampleable.",
+    symbols: [
+      { symbol: "q(z \\mid x)", meaning: "Encoder — approximate posterior over latents given input x" },
+      { symbol: "p(x \\mid z)", meaning: "Decoder — reconstructs the input from latent z" },
+      { symbol: "p(z)", meaning: "Prior over latents, usually a standard Gaussian" },
+      { symbol: "KL", meaning: "Divergence pulling the encoder toward the prior (regularizer)" },
+    ],
+  },
+  evolutionary: {
+    title: "Fitness-Proportional Selection",
+    formula: "P(\\text{select } i) = \\frac{f(i)}{\\sum_{j=1}^{N} f(j)}",
+    summary:
+      "Each generation, candidates are selected to reproduce with probability proportional to their fitness; mutation and crossover then create the next population.",
+    symbols: [
+      { symbol: "f(i)", meaning: "Fitness score of candidate i on the objective" },
+      { symbol: "N", meaning: "Population size" },
+      { symbol: "P(\\text{select } i)", meaning: "Chance candidate i becomes a parent for the next generation" },
+    ],
+  },
+  "cross-attn": {
+    title: "Cross-Attention",
+    formula: "Q = X_{\\text{dec}} W_Q, \\quad K = X_{\\text{enc}} W_K, \\quad V = X_{\\text{enc}} W_V",
+    summary:
+      "Queries come from one sequence (the decoder) while keys and values come from another (the encoder), letting the output attend to the input.",
+    symbols: [
+      { symbol: "X_{\\text{dec}}", meaning: "Decoder-side token representations asking the questions" },
+      { symbol: "X_{\\text{enc}}", meaning: "Encoder-side representations being attended to" },
+      { symbol: "W_Q, W_K, W_V", meaning: "Learned projection matrices, as in self-attention" },
+    ],
+  },
+  rl: {
+    title: "Expected Return",
+    formula: "J(\\pi) = \\mathbb{E}_{\\pi}\\left[\\sum_{t=0}^{\\infty} \\gamma^t \\, r_t\\right]",
+    summary:
+      "Reinforcement learning seeks the policy that maximizes the discounted sum of future rewards collected while interacting with an environment.",
+    symbols: [
+      { symbol: "\\pi", meaning: "Policy — the agent's rule for choosing actions in states" },
+      { symbol: "r_t", meaning: "Reward received at timestep t" },
+      { symbol: "\\gamma", meaning: "Discount factor in [0,1) weighting near rewards over far ones" },
+      { symbol: "J(\\pi)", meaning: "Expected cumulative discounted reward under policy pi" },
+    ],
+  },
+  gbm: {
+    title: "Gradient Boosting Update",
+    formula: "F_m(x) = F_{m-1}(x) + \\nu \\, h_m(x)",
+    summary:
+      "Each round fits a small tree h_m to the residual errors (negative gradient) of the current ensemble, then adds it with a small learning rate.",
+    symbols: [
+      { symbol: "F_m", meaning: "Ensemble prediction after m boosting rounds" },
+      { symbol: "h_m", meaning: "New weak learner fit to the current residuals" },
+      { symbol: "\\nu", meaning: "Learning rate (shrinkage), typically 0.01-0.3" },
+    ],
+  },
+  trees: {
+    title: "Information Gain",
+    formula: "IG = H(S) - \\sum_{v} \\frac{|S_v|}{|S|} H(S_v)",
+    summary:
+      "A split is chosen to maximize the reduction in impurity (entropy) between the parent node and the weighted average of its children.",
+    symbols: [
+      { symbol: "H(S)", meaning: "Entropy (impurity) of the label distribution in node S" },
+      { symbol: "S_v", meaning: "Subset of samples going to child v after the split" },
+      { symbol: "IG", meaning: "Information gain — impurity removed by this split" },
+    ],
+  },
+  knn: {
+    title: "k-NN Prediction",
+    formula: "\\hat{y} = \\text{mode}\\big(\\{ y_i : \\mathbf{x}_i \\in N_k(\\mathbf{x}) \\}\\big)",
+    summary:
+      "Classifies a query point by majority vote among its k closest training examples under a chosen distance metric; no training phase at all.",
+    symbols: [
+      { symbol: "N_k(\\mathbf{x})", meaning: "The k nearest training points to query x" },
+      { symbol: "y_i", meaning: "Label of neighbor i" },
+      { symbol: "k", meaning: "Number of neighbors; small k is flexible, large k is smooth" },
+    ],
+  },
+  rf: {
+    title: "Bagged Ensemble Prediction",
+    formula: "\\hat{y} = \\frac{1}{B} \\sum_{b=1}^{B} T_b(\\mathbf{x})",
+    summary:
+      "Averages (or majority-votes) many trees, each trained on a bootstrap sample with a random subset of features per split, which cancels individual trees' variance.",
+    symbols: [
+      { symbol: "B", meaning: "Number of trees in the forest" },
+      { symbol: "T_b", meaning: "Prediction of tree b, trained on a bootstrap resample" },
+      { symbol: "\\hat{y}", meaning: "Ensemble output — average for regression, vote for classification" },
+    ],
+  },
+  rlhf: {
+    title: "RLHF Objective with KL Penalty",
+    formula: "\\max_{\\pi_\\theta} \\; \\mathbb{E}\\big[ r_\\phi(x, y) \\big] - \\beta \\, \\text{KL}\\big(\\pi_\\theta \\,\\|\\, \\pi_{\\text{ref}}\\big)",
+    summary:
+      "The policy is tuned to maximize a learned reward model's score while a KL penalty keeps it from drifting too far from the reference model.",
+    symbols: [
+      { symbol: "r_\\phi(x, y)", meaning: "Reward model score for response y to prompt x" },
+      { symbol: "\\pi_\\theta", meaning: "Policy being fine-tuned" },
+      { symbol: "\\pi_{\\text{ref}}", meaning: "Frozen reference (SFT) model" },
+      { symbol: "\\beta", meaning: "Strength of the KL penalty against drift" },
+    ],
+  },
+  retrieval: {
+    title: "BM25 Ranking",
+    formula: "\\text{score}(D, Q) = \\sum_{t \\in Q} \\text{IDF}(t) \\cdot \\frac{f(t, D)(k_1 + 1)}{f(t, D) + k_1(1 - b + b \\frac{|D|}{\\text{avgdl}})}",
+    summary:
+      "The classic lexical relevance score: rare query terms count more, repeated terms saturate, and long documents are penalized. Often combined with vector search in hybrid retrieval.",
+    symbols: [
+      { symbol: "f(t, D)", meaning: "Frequency of term t in document D" },
+      { symbol: "\\text{IDF}(t)", meaning: "Inverse document frequency — rarity bonus for term t" },
+      { symbol: "k_1, b", meaning: "Tuning constants for saturation and length normalization" },
+      { symbol: "\\text{avgdl}", meaning: "Average document length in the corpus" },
+    ],
+  },
+  rnn: {
+    title: "Recurrent Update",
+    formula: "h_t = \\tanh(W_h h_{t-1} + W_x x_t + b)",
+    summary:
+      "At each timestep the hidden state combines the previous state with the new input, carrying memory forward through the sequence one step at a time.",
+    symbols: [
+      { symbol: "h_t", meaning: "Hidden state (memory) at timestep t" },
+      { symbol: "x_t", meaning: "Input at timestep t" },
+      { symbol: "W_h, W_x", meaning: "Recurrent and input weight matrices, shared across timesteps" },
+      { symbol: "\\tanh", meaning: "Squashing non-linearity keeping the state bounded" },
+    ],
+  },
+  mlp: {
+    title: "MLP Forward Pass",
+    formula: "\\mathbf{h}^{(l+1)} = \\sigma\\big(W^{(l)} \\mathbf{h}^{(l)} + \\mathbf{b}^{(l)}\\big)",
+    summary:
+      "Each layer applies a linear transformation followed by a non-linearity; stacking layers lets the network approximate arbitrarily complex functions.",
+    symbols: [
+      { symbol: "\\mathbf{h}^{(l)}", meaning: "Activations at layer l (layer 0 is the input)" },
+      { symbol: "W^{(l)}, \\mathbf{b}^{(l)}", meaning: "Weight matrix and bias vector of layer l" },
+      { symbol: "\\sigma", meaning: "Element-wise activation such as ReLU or GELU" },
+    ],
+  },
+  bandit: {
+    title: "UCB Action Selection",
+    formula: "a_t = \\arg\\max_a \\left[ \\hat{\\mu}_a + c \\sqrt{\\frac{\\ln t}{n_a}} \\right]",
+    summary:
+      "Upper Confidence Bound picks the arm with the best optimistic estimate: high observed reward, or high uncertainty because it was tried rarely.",
+    symbols: [
+      { symbol: "\\hat{\\mu}_a", meaning: "Average reward observed so far for arm a" },
+      { symbol: "n_a", meaning: "Number of times arm a has been pulled" },
+      { symbol: "t", meaning: "Total number of pulls so far" },
+      { symbol: "c", meaning: "Exploration strength — how much uncertainty is rewarded" },
+    ],
+  },
+  selfsup: {
+    title: "Next-Token Objective",
+    formula: "L = -\\sum_{t=1}^{T} \\log p_\\theta(x_t \\mid x_{<t})",
+    summary:
+      "Self-supervised language modeling turns raw text into labels: predict each token given everything before it, so no human annotation is needed.",
+    symbols: [
+      { symbol: "x_t", meaning: "Token at position t — the free label" },
+      { symbol: "x_{<t}", meaning: "All tokens before position t (the context)" },
+      { symbol: "p_\\theta", meaning: "Model's predicted distribution over the vocabulary" },
+    ],
+  },
+  "kg-embed": {
+    title: "TransE Scoring",
+    formula: "d(h, r, t) = \\|\\mathbf{h} + \\mathbf{r} - \\mathbf{t}\\|",
+    summary:
+      "Embeds entities and relations as vectors so that a true triple's head plus relation lands near its tail; small distance means a plausible fact.",
+    symbols: [
+      { symbol: "\\mathbf{h}, \\mathbf{t}", meaning: "Embeddings of the head and tail entities" },
+      { symbol: "\\mathbf{r}", meaning: "Embedding of the relation, acting as a translation" },
+      { symbol: "d", meaning: "Distance — low for true triples, high for corrupted ones" },
+    ],
+  },
 };

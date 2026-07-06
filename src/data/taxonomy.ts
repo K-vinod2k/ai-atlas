@@ -1,11 +1,26 @@
+import { EXPLANATIONS_BY_NODE_ID } from "./explanations";
 import { MATH_BY_NODE_ID } from "./math-content";
 import { RICH_BY_NODE_ID } from "./rich-content";
+import { WALKTHROUGHS_BY_NODE_ID } from "./walkthroughs";
 import { TREE as RAW_TREE } from "./tree-data";
-import type { IndexedNode, NodeKind, TaxonomyNode } from "./types";
+import type { IndexedNode, NodeKind, RichContent, TaxonomyNode } from "./types";
+
+/** Curated rich-content entries win over authored explanations on field conflicts. */
+function mergeRich(id: string): RichContent | undefined {
+  const authored = EXPLANATIONS_BY_NODE_ID[id];
+  const curated = RICH_BY_NODE_ID[id];
+  const walkthrough = WALKTHROUGHS_BY_NODE_ID[id];
+  if (!authored && !curated && !walkthrough) return undefined;
+  return {
+    ...(walkthrough ? { walkthrough } : {}),
+    ...authored,
+    ...curated,
+  };
+}
 
 function attachEnrichment(node: TaxonomyNode): TaxonomyNode {
   const math = MATH_BY_NODE_ID[node.id];
-  const rich = RICH_BY_NODE_ID[node.id];
+  const rich = mergeRich(node.id);
   const children = node.children?.map(attachEnrichment);
   return {
     ...node,

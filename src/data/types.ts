@@ -36,6 +36,8 @@ export interface WalkthroughStep {
 }
 
 export interface RichContent {
+  /** 1-4 paragraphs of markdown shown between the hero and the analogy card. */
+  explanation?: string;
   analogy?: string;
   diagram?: string;
   architectureSvg?: string;
