@@ -21,9 +21,15 @@ interface TreeSidebarProps {
   roots: IndexedNode[];
   allNodes: IndexedNode[];
   selectedId: string;
+  onSelectNode?: (id: string) => void;
 }
 
-export function TreeSidebar({ roots, allNodes, selectedId }: TreeSidebarProps) {
+export function TreeSidebar({
+  roots,
+  allNodes,
+  selectedId,
+  onSelectNode,
+}: TreeSidebarProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [kindFilter, setKindFilter] = useState<NodeKind | "all">("all");
@@ -83,7 +89,11 @@ export function TreeSidebar({ roots, allNodes, selectedId }: TreeSidebarProps) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
 
   const selectNode = (id: string) => {
-    router.push(`/node/${id}`);
+    if (onSelectNode) {
+      onSelectNode(id);
+    } else {
+      router.push(`/learn?node=${id}`);
+    }
     const indexed = allNodes.find((n) => n.node.id === id);
     if (indexed) {
       setExpanded((prev) => {

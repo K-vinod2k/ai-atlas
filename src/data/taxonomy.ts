@@ -1,14 +1,21 @@
 import { MATH_BY_NODE_ID } from "./math-content";
+import { RICH_BY_NODE_ID } from "./rich-content";
 import { TREE as RAW_TREE } from "./tree-data";
 import type { IndexedNode, NodeKind, TaxonomyNode } from "./types";
 
-function attachMath(node: TaxonomyNode): TaxonomyNode {
+function attachEnrichment(node: TaxonomyNode): TaxonomyNode {
   const math = MATH_BY_NODE_ID[node.id];
-  const children = node.children?.map(attachMath);
-  return math ? { ...node, math, children } : { ...node, children };
+  const rich = RICH_BY_NODE_ID[node.id];
+  const children = node.children?.map(attachEnrichment);
+  return {
+    ...node,
+    ...(math ? { math } : {}),
+    ...(rich ? { rich } : {}),
+    children,
+  };
 }
 
-export const TREE: TaxonomyNode = attachMath(RAW_TREE);
+export const TREE: TaxonomyNode = attachEnrichment(RAW_TREE);
 
 export interface TaxonomyIndex {
   byId: Map<string, IndexedNode>;

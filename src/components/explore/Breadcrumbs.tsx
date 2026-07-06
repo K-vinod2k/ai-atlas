@@ -6,9 +6,10 @@ import type { TaxonomyNode } from "@/data/types";
 
 interface BreadcrumbsProps {
   path: TaxonomyNode[];
+  onSelectNode?: (id: string) => void;
 }
 
-export function Breadcrumbs({ path }: BreadcrumbsProps) {
+export function Breadcrumbs({ path, onSelectNode }: BreadcrumbsProps) {
   return (
     <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 text-sm">
       {path.map((node, i) => (
@@ -20,12 +21,22 @@ export function Breadcrumbs({ path }: BreadcrumbsProps) {
             />
           )}
           {i < path.length - 1 ? (
-            <Link
-              href={`/node/${node.id}`}
-              className="text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
-            >
-              {node.name}
-            </Link>
+            onSelectNode ? (
+              <button
+                type="button"
+                onClick={() => onSelectNode(node.id)}
+                className="text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
+              >
+                {node.name}
+              </button>
+            ) : (
+              <Link
+                href={`/node/${node.id}`}
+                className="text-muted-foreground hover:text-primary transition-colors duration-200 cursor-pointer"
+              >
+                {node.name}
+              </Link>
+            )
           ) : (
             <span className="text-foreground font-medium" aria-current="page">
               {node.name}

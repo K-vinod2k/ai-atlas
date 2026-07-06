@@ -11,9 +11,10 @@ interface ChatMessage extends AgentMessage {
 
 interface ChatPanelProps {
   compact?: boolean;
+  onNavigate?: (nodeId: string) => void;
 }
 
-export function ChatPanel({ compact = false }: ChatPanelProps) {
+export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -55,7 +56,11 @@ export function ChatPanel({ compact = false }: ChatPanelProps) {
       setMessages((prev) => [...prev, assistantMsg]);
 
       if (data.navigateTo) {
-        router.push(`/node/${data.navigateTo}`);
+        if (onNavigate) {
+          onNavigate(data.navigateTo);
+        } else {
+          router.push(`/learn?node=${data.navigateTo}`);
+        }
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Request failed");
@@ -66,7 +71,7 @@ export function ChatPanel({ compact = false }: ChatPanelProps) {
 
   return (
     <div
-      className={`flex flex-col h-full card ${compact ? "max-h-48" : ""}`}
+      className={`flex flex-col h-full card ${compact ? "max-h-48" : "h-full min-h-[320px]"}`}
       style={{ padding: 0 }}
     >
       <div
@@ -87,7 +92,7 @@ export function ChatPanel({ compact = false }: ChatPanelProps) {
 
       <div
         className={`flex-1 overflow-y-auto p-4 space-y-4 ${
-          compact ? "min-h-0 max-h-24" : "min-h-[200px] max-h-[400px]"
+          compact ? "min-h-0 max-h-24" : "min-h-0 flex-1"
         }`}
         role="log"
         aria-live="polite"

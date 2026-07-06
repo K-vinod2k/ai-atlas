@@ -46,7 +46,7 @@ function explainNode(nodeId: string): AgentResponse {
   if (node.ex?.length) lines.push("", `**Examples:** ${node.ex.join(", ")}`);
   if (node.math) {
     lines.push("", `**Math:** ${node.math.title}`, node.math.summary);
-    lines.push("", `Open /node/${node.id} to see the full formula.`);
+    lines.push("", `Open /learn?node=${node.id} to see the full formula and interactive content.`);
   }
   if (node.links?.length) {
     lines.push("", `**Connects to:** ${node.links.join(", ")}`);
@@ -94,7 +94,7 @@ function lookupNode(query: string): AgentResponse {
   }
 
   const list = results
-    .map((r) => `- **${r.node.name}** (${KIND_LABEL[r.node.kind]}) — /node/${r.node.id}`)
+    .map((r) => `- **${r.node.name}** (${KIND_LABEL[r.node.kind]}) — /learn?node=${r.node.id}`)
     .join("\n");
   return { content: `Found ${results.length} matches for "${query}":\n\n${list}` };
 }

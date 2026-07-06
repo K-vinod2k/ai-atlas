@@ -22,6 +22,28 @@ export interface NodeMath {
   symbols: MathSymbol[];
 }
 
+export interface DataFlowEdge {
+  from: string;
+  to: string;
+  label: string;
+}
+
+export interface WalkthroughStep {
+  step: number;
+  title: string;
+  body: string;
+  formula?: string;
+}
+
+export interface RichContent {
+  analogy?: string;
+  diagram?: string;
+  architectureSvg?: string;
+  dataFlow?: DataFlowEdge[];
+  walkthrough?: WalkthroughStep[];
+  visualExample?: string;
+}
+
 export interface TaxonomyNode {
   id: string;
   name: string;
@@ -32,6 +54,7 @@ export interface TaxonomyNode {
   links?: string[];
   children?: TaxonomyNode[];
   math?: NodeMath;
+  rich?: RichContent;
 }
 
 export interface IndexedNode {

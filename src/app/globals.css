@@ -232,4 +232,25 @@ h6 {
     color: var(--color-on-primary);
     border-color: var(--color-primary);
   }
+
+  .flow-step {
+    animation: flowIn 0.4s ease-out both;
+  }
+}
+
+@keyframes flowIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-step {
+    animation: none !important;
+  }
 }

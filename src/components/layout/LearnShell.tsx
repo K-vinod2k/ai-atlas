@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpen, Compass, Newspaper } from "lucide-react";
-import { ChatPanel } from "@/components/agent/ChatPanel";
 
-interface AppShellProps {
+interface LearnShellProps {
   children: React.ReactNode;
 }
 
-export function AppShell({ children }: AppShellProps) {
+export function LearnShell({ children }: LearnShellProps) {
   const pathname = usePathname();
   const isLearn = pathname.startsWith("/learn");
   const isExplore = pathname.startsWith("/explore") || pathname.startsWith("/node");
@@ -21,7 +20,7 @@ export function AppShell({ children }: AppShellProps) {
         className="border-b bg-surface sticky top-0 z-40"
         style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
       >
-        <div className="max-w-7xl mx-auto px-4 lg:px-6 py-4 flex items-center justify-between gap-4">
+        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 py-4 flex items-center justify-between gap-4">
           <div>
             <Link
               href="/learn"
@@ -31,7 +30,7 @@ export function AppShell({ children }: AppShellProps) {
               AI Atlas
             </Link>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Interactive map of the AI landscape
+              Premium interactive learning platform
             </p>
           </div>
           <nav className="flex gap-1" aria-label="Main navigation">
@@ -63,22 +62,9 @@ export function AppShell({ children }: AppShellProps) {
         </div>
       </header>
 
-      <div className="flex-1 max-w-7xl mx-auto w-full px-4 lg:px-6 py-6 lg:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 lg:gap-8">
-          <main>{children}</main>
-          <aside className="hidden lg:block">
-            <div className="sticky top-24">
-              <ChatPanel />
-            </div>
-          </aside>
-        </div>
-      </div>
-
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 p-4 bg-surface border-t z-40"
-        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
-      >
-        <ChatPanel compact />
-      </div>
+      <main className="flex-1 max-w-[1600px] mx-auto w-full px-4 lg:px-6 py-6 lg:py-8">
+        {children}
+      </main>
     </div>
   );
 }

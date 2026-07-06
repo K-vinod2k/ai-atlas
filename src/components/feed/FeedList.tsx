@@ -169,7 +169,7 @@ function FeedItemRow({ item }: { item: NewsItem }) {
             return indexed ? (
               <Link
                 key={nodeId}
-                href={`/node/${nodeId}`}
+                href={`/learn?node=${nodeId}`}
                 className="badge badge-primary text-xs hover:bg-primary/20 transition-colors duration-200 cursor-pointer"
               >
                 {indexed.node.name}
