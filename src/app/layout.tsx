@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Baloo_2, Comic_Neue } from "next/font/google";
+import { Lora, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 
-const baloo2 = Baloo_2({
-  variable: "--font-baloo",
+const lora = Lora({
+  variable: "--font-heading",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const comicNeue = Comic_Neue({
-  variable: "--font-comic",
+const sourceSans3 = Source_Sans_3({
+  variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -28,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${baloo2.variable} ${comicNeue.variable} antialiased`}>
+      <body className={`${lora.variable} ${sourceSans3.variable} antialiased`}>
         {children}
       </body>
     </html>
