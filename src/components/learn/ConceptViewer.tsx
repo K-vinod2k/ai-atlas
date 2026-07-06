@@ -1,7 +1,15 @@
 "use client";
 
-import { AlertTriangle, BookOpen, GitCompare, Sparkles } from "lucide-react";
+import Link from "next/link";
+import {
+  AlertTriangle,
+  BookOpen,
+  GitCompare,
+  GraduationCap,
+  Sparkles,
+} from "lucide-react";
 import { getNodeIdByName } from "@/data/taxonomy";
+import { getSkillupForNode } from "@/data/skillup";
 import {
   KIND_LABEL,
   NON_LAYER_KINDS,
@@ -9,6 +17,7 @@ import {
 } from "@/data/types";
 import { MathBlock } from "@/components/explore/MathBlock";
 import { Breadcrumbs } from "@/components/explore/Breadcrumbs";
+import { ProgressButtons } from "@/components/progress/ProgressButtons";
 import { AnalogyCard } from "./AnalogyCard";
 import { WalkthroughSteps } from "./WalkthroughSteps";
 
@@ -21,12 +30,13 @@ interface ConceptViewerProps {
 export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) {
   const isNonLayer = NON_LAYER_KINDS.includes(node.kind);
   const rich = node.rich;
+  const skillupItems = getSkillupForNode(node.id);
 
   return (
     <article className="space-y-6 lg:space-y-7 fade-in">
       <Breadcrumbs path={path} onSelectNode={onSelectNode} />
 
-      <header className="space-y-4 pb-5 border-b border-[rgba(122,226,207,0.16)]">
+      <header className="space-y-4 pb-5 border-b border-[rgba(127,163,192,0.16)]">
         <div className="flex items-center gap-3 flex-wrap">
           <span className="badge badge-primary">
             <Sparkles className="w-3 h-3 mr-1" aria-hidden="true" />
@@ -44,22 +54,23 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
         <p className="text-[color:var(--color-foreground)]/85 leading-relaxed text-base lg:text-lg max-w-2xl">
           {node.one}
         </p>
+        <ProgressButtons nodeId={node.id} />
       </header>
 
       {isNonLayer && (
         <div
           className="rounded-xl p-4 flex gap-3"
           style={{
-            background: "rgba(253,235,158,0.08)",
-            border: "1px solid rgba(253,235,158,0.35)",
+            background: "rgba(232,213,196,0.08)",
+            border: "1px solid rgba(232,213,196,0.35)",
           }}
         >
           <AlertTriangle
-            className="w-5 h-5 shrink-0 text-[#FDEB9E]"
+            className="w-5 h-5 shrink-0 text-[#E8D5C4]"
             aria-hidden="true"
           />
           <div>
-            <p className="font-semibold text-[#FDEB9E]">Not a layer</p>
+            <p className="font-semibold text-[#E8D5C4]">Not a layer</p>
             <p className="mt-1 text-sm text-[color:var(--color-foreground)]/80">
               This is a {KIND_LABEL[node.kind].toLowerCase()} — an edge or action
               that spans layers, not a level in the hierarchy.
@@ -79,7 +90,7 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
       {rich?.visualExample && (
         <section className="card">
           <div className="flex items-center gap-2 mb-3">
-            <BookOpen className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+            <BookOpen className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
             <h2 className="section-label">Real-world example</h2>
           </div>
           <p className="text-sm text-[color:var(--color-foreground)]/85 leading-relaxed">
@@ -91,7 +102,7 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
       {node.differs && (
         <section className="card">
           <div className="flex items-center gap-2 mb-3">
-            <GitCompare className="w-4 h-4 text-[#FDEB9E]" aria-hidden="true" />
+            <GitCompare className="w-4 h-4 text-[#E8D5C4]" aria-hidden="true" />
             <h2 className="section-label">How it differs</h2>
           </div>
           <p className="text-sm text-[color:var(--color-foreground)]/85 leading-relaxed">
@@ -134,6 +145,29 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
                 </span>
               );
             })}
+          </div>
+        </section>
+      )}
+
+      {skillupItems.length > 0 && (
+        <section className="card">
+          <div className="flex items-center gap-2 mb-3">
+            <GraduationCap
+              className="w-4 h-4 text-[#E8D5C4]"
+              aria-hidden="true"
+            />
+            <h2 className="section-label">Skillup practice</h2>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {skillupItems.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/skillup/${item.slug}`}
+                className="link-pill"
+              >
+                {item.title}
+              </Link>
+            ))}
           </div>
         </section>
       )}

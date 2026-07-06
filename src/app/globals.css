@@ -2,32 +2,33 @@
 @import "tailwindcss";
 
 :root {
-  /* Color Hunt palette: 06202B / 077A7D / 7AE2CF / FDEB9E — dark navy premium */
-  --color-bg-1: #06202B;
-  --color-bg-2: #0A2833;
-  --color-bg-3: #07242F;
-  --color-primary: #077A7D;
-  --color-primary-lifted: #0FA0A3;
-  --color-on-primary: #F5FBFB;
-  --color-accent: #7AE2CF;
-  --color-accent-strong: #A6ECDD;
-  --color-highlight: #FDEB9E;
-  --color-highlight-strong: #FFF5B8;
-  --color-on-highlight: #0F1F1B;
+  /* Coolors palette: 0A0E13 / 363434 / 322217 / 554940 / 394B5A — near-black warm slate */
+  /* Derived light tones (raw palette has no light accent): #7FA3C0 lifted slate, #E8D5C4 cream, #C8A88E warm tan */
+  --color-bg-1: #0A0E13;
+  --color-bg-2: #10151C;
+  --color-bg-3: #0D1218;
+  --color-primary: #394B5A;
+  --color-primary-lifted: #4A6075;
+  --color-on-primary: #F2EFEC;
+  --color-accent: #7FA3C0;
+  --color-accent-strong: #A7C4DB;
+  --color-highlight: #E8D5C4;
+  --color-highlight-strong: #F2E4D8;
+  --color-on-highlight: #17130F;
 
-  --color-background: #06202B;
-  --color-foreground: #F1F8F7;
-  --color-muted: rgba(122, 226, 207, 0.10);
-  --color-border: rgba(122, 226, 207, 0.22);
-  --color-border-strong: rgba(122, 226, 207, 0.38);
-  --color-destructive: #F49A8A;
-  --color-ring: #7AE2CF;
+  --color-background: #0A0E13;
+  --color-foreground: #F2EFEC;
+  --color-muted: rgba(85, 73, 64, 0.20);
+  --color-border: rgba(138, 122, 109, 0.32);
+  --color-border-strong: rgba(138, 122, 109, 0.52);
+  --color-destructive: #E0897A;
+  --color-ring: #7FA3C0;
 
-  --color-surface: rgba(11, 42, 56, 0.72);
-  --color-surface-strong: rgba(15, 52, 68, 0.88);
-  --color-surface-flat: #0B2A38;
-  --color-muted-foreground: rgba(230, 245, 244, 0.62);
-  --color-subtle-foreground: rgba(230, 245, 244, 0.48);
+  --color-surface: rgba(44, 42, 43, 0.72);
+  --color-surface-strong: rgba(54, 52, 52, 0.90);
+  --color-surface-flat: #262426;
+  --color-muted-foreground: rgba(242, 239, 236, 0.64);
+  --color-subtle-foreground: rgba(242, 239, 236, 0.46);
 
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
@@ -37,11 +38,11 @@
   --space-2xl: 3rem;
   --space-3xl: 4rem;
 
-  --shadow-sm: 0 1px 2px rgba(4, 16, 22, 0.5);
-  --shadow-md: 0 8px 20px rgba(4, 16, 22, 0.45);
-  --shadow-lg: 0 20px 40px rgba(4, 16, 22, 0.55);
-  --shadow-xl: 0 30px 60px rgba(4, 16, 22, 0.6);
-  --glow-accent: 0 0 0 1px rgba(122, 226, 207, 0.35), 0 8px 24px rgba(122, 226, 207, 0.14);
+  --shadow-sm: 0 1px 2px rgba(3, 5, 8, 0.5);
+  --shadow-md: 0 8px 20px rgba(3, 5, 8, 0.45);
+  --shadow-lg: 0 20px 40px rgba(3, 5, 8, 0.55);
+  --shadow-xl: 0 30px 60px rgba(3, 5, 8, 0.6);
+  --glow-accent: 0 0 0 1px rgba(127, 163, 192, 0.35), 0 8px 24px rgba(127, 163, 192, 0.14);
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -79,10 +80,10 @@ body {
 
 body {
   background:
-    radial-gradient(1200px 600px at 12% -10%, rgba(7, 122, 125, 0.22), transparent 60%),
-    radial-gradient(1000px 500px at 90% 10%, rgba(122, 226, 207, 0.12), transparent 55%),
-    radial-gradient(1400px 800px at 50% 110%, rgba(253, 235, 158, 0.06), transparent 60%),
-    linear-gradient(180deg, #06202B 0%, #082633 45%, #06202B 100%);
+    radial-gradient(1200px 600px at 12% -10%, rgba(57, 75, 90, 0.30), transparent 60%),
+    radial-gradient(1000px 500px at 90% 10%, rgba(50, 34, 23, 0.35), transparent 55%),
+    radial-gradient(1400px 800px at 50% 110%, rgba(85, 73, 64, 0.14), transparent 60%),
+    linear-gradient(180deg, #0A0E13 0%, #10151C 45%, #0A0E13 100%);
   background-attachment: fixed;
   color-scheme: dark;
 }
@@ -98,8 +99,8 @@ h6 {
 }
 
 *::selection {
-  background: rgba(122, 226, 207, 0.35);
-  color: #06202B;
+  background: rgba(127, 163, 192, 0.4);
+  color: #0A0E13;
 }
 
 ::-webkit-scrollbar {
@@ -112,14 +113,14 @@ h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(122, 226, 207, 0.16);
+  background: rgba(138, 122, 109, 0.24);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(122, 226, 207, 0.28);
+  background: rgba(138, 122, 109, 0.4);
   background-clip: padding-box;
 }
 
@@ -155,19 +156,19 @@ h6 {
     @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg cursor-pointer transition-all duration-200 ease-in-out;
     background: var(--color-primary);
     color: var(--color-on-primary);
-    border: 1px solid rgba(122, 226, 207, 0.35);
+    border: 1px solid rgba(127, 163, 192, 0.35);
   }
 
   .btn-primary:hover:not(:disabled) {
     background: var(--color-primary-lifted);
-    color: #06202B;
+    color: var(--color-on-primary);
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(122, 226, 207, 0.18);
+    box-shadow: 0 0 0 3px rgba(127, 163, 192, 0.18);
   }
 
   .btn-primary:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(122, 226, 207, 0.4);
+    box-shadow: 0 0 0 3px rgba(127, 163, 192, 0.4);
   }
 
   .btn-primary:disabled {
@@ -179,18 +180,18 @@ h6 {
     @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-lg cursor-pointer transition-all duration-200 ease-in-out;
     background: transparent;
     color: var(--color-accent);
-    border: 1px solid rgba(122, 226, 207, 0.4);
+    border: 1px solid rgba(127, 163, 192, 0.4);
   }
 
   .btn-secondary:hover:not(:disabled) {
-    background: rgba(122, 226, 207, 0.08);
+    background: rgba(127, 163, 192, 0.08);
     border-color: var(--color-accent);
     color: var(--color-accent-strong);
   }
 
   .btn-secondary:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(122, 226, 207, 0.3);
+    box-shadow: 0 0 0 3px rgba(127, 163, 192, 0.3);
   }
 
   .btn-ghost {
@@ -200,7 +201,7 @@ h6 {
   }
 
   .btn-ghost:hover:not(:disabled) {
-    background: rgba(122, 226, 207, 0.08);
+    background: rgba(127, 163, 192, 0.08);
     color: var(--color-accent);
   }
 
@@ -219,13 +220,13 @@ h6 {
 
   .card-interactive:hover {
     box-shadow: var(--glow-accent);
-    border-color: rgba(122, 226, 207, 0.45);
+    border-color: rgba(127, 163, 192, 0.45);
     transform: translateY(-1px);
   }
 
   .input-field {
     @apply w-full px-4 py-2.5 text-sm rounded-lg transition-colors duration-200 ease-in-out;
-    background: rgba(6, 32, 43, 0.55);
+    background: rgba(10, 14, 19, 0.55);
     color: var(--color-foreground);
     border: 1px solid var(--color-border);
   }
@@ -237,8 +238,8 @@ h6 {
   .input-field:focus {
     outline: none;
     border-color: var(--color-accent);
-    background: rgba(6, 32, 43, 0.75);
-    box-shadow: 0 0 0 3px rgba(122, 226, 207, 0.18);
+    background: rgba(10, 14, 19, 0.75);
+    box-shadow: 0 0 0 3px rgba(127, 163, 192, 0.18);
   }
 
   .input-field:disabled {
@@ -264,32 +265,32 @@ h6 {
 
   .badge {
     @apply inline-flex items-center text-xs px-2.5 py-1 rounded-full font-medium;
-    background: rgba(122, 226, 207, 0.08);
-    border: 1px solid rgba(122, 226, 207, 0.28);
+    background: rgba(127, 163, 192, 0.08);
+    border: 1px solid rgba(127, 163, 192, 0.28);
     color: var(--color-accent-strong);
   }
 
   .badge-primary {
-    background: rgba(7, 122, 125, 0.22);
-    border-color: rgba(122, 226, 207, 0.5);
+    background: rgba(57, 75, 90, 0.35);
+    border-color: rgba(127, 163, 192, 0.5);
     color: var(--color-accent-strong);
   }
 
   .badge-highlight {
-    background: rgba(253, 235, 158, 0.14);
-    border-color: rgba(253, 235, 158, 0.5);
+    background: rgba(232, 213, 196, 0.12);
+    border-color: rgba(232, 213, 196, 0.45);
     color: var(--color-highlight);
   }
 
   .link-pill {
     @apply inline-flex items-center text-sm px-3 py-1.5 rounded-full cursor-pointer transition-all duration-200 ease-in-out;
-    background: rgba(11, 42, 56, 0.6);
+    background: rgba(44, 42, 43, 0.6);
     border: 1px solid var(--color-border);
     color: var(--color-foreground);
   }
 
   .link-pill:hover {
-    background: rgba(122, 226, 207, 0.10);
+    background: rgba(127, 163, 192, 0.10);
     border-color: var(--color-accent);
     color: var(--color-accent-strong);
     transform: translateY(-1px);
@@ -297,7 +298,7 @@ h6 {
 
   .skeleton {
     @apply animate-pulse rounded-md;
-    background: rgba(122, 226, 207, 0.10);
+    background: rgba(138, 122, 109, 0.16);
   }
 
   .nav-link {
@@ -307,18 +308,18 @@ h6 {
 
   .nav-link:hover {
     color: var(--color-accent);
-    background: rgba(122, 226, 207, 0.08);
+    background: rgba(127, 163, 192, 0.08);
   }
 
   .nav-link-active {
     color: var(--color-highlight);
-    background: rgba(253, 235, 158, 0.08);
-    border: 1px solid rgba(253, 235, 158, 0.28);
+    background: rgba(232, 213, 196, 0.08);
+    border: 1px solid rgba(232, 213, 196, 0.28);
   }
 
   .filter-pill {
     @apply text-xs px-2.5 py-1 rounded-full cursor-pointer transition-all duration-200 ease-in-out;
-    background: rgba(11, 42, 56, 0.55);
+    background: rgba(44, 42, 43, 0.55);
     border: 1px solid var(--color-border);
     color: var(--color-muted-foreground);
   }
@@ -329,9 +330,9 @@ h6 {
   }
 
   .filter-pill-active {
-    background: rgba(7, 122, 125, 0.35);
+    background: rgba(57, 75, 90, 0.5);
     color: var(--color-highlight);
-    border-color: rgba(253, 235, 158, 0.5);
+    border-color: rgba(232, 213, 196, 0.5);
   }
 
   .flow-step {
@@ -347,7 +348,7 @@ h6 {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(122, 226, 207, 0.35) 50%,
+      rgba(138, 122, 109, 0.5) 50%,
       transparent 100%
     );
   }
@@ -355,10 +356,10 @@ h6 {
   .tree-item-selected {
     background: linear-gradient(
       90deg,
-      rgba(253, 235, 158, 0.16) 0%,
-      rgba(122, 226, 207, 0.08) 100%
+      rgba(232, 213, 196, 0.14) 0%,
+      rgba(127, 163, 192, 0.08) 100%
     );
-    border: 1px solid rgba(253, 235, 158, 0.35);
+    border: 1px solid rgba(232, 213, 196, 0.35);
     color: var(--color-highlight);
     font-weight: 600;
   }
@@ -372,6 +373,127 @@ h6 {
     width: 2px;
     background: var(--color-highlight);
     border-radius: 999px;
+  }
+
+  .prose-skillup {
+    color: rgba(242, 239, 236, 0.86);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .prose-skillup h1,
+  .prose-skillup h2,
+  .prose-skillup h3 {
+    font-family: var(--font-heading), "Lora", Georgia, serif;
+    color: var(--color-foreground);
+    margin-top: 1.75em;
+    margin-bottom: 0.6em;
+    line-height: 1.25;
+  }
+
+  .prose-skillup h1 { font-size: 1.5rem; }
+  .prose-skillup h2 { font-size: 1.25rem; }
+  .prose-skillup h3 { font-size: 1.05rem; }
+
+  .prose-skillup p {
+    margin-bottom: 1em;
+  }
+
+  .prose-skillup ul,
+  .prose-skillup ol {
+    margin: 0.5em 0 1em;
+    padding-left: 1.4em;
+  }
+
+  .prose-skillup ul { list-style: disc; }
+  .prose-skillup ol { list-style: decimal; }
+
+  .prose-skillup li {
+    margin-bottom: 0.35em;
+  }
+
+  .prose-skillup li::marker {
+    color: var(--color-accent);
+  }
+
+  .prose-skillup strong {
+    color: var(--color-highlight);
+    font-weight: 600;
+  }
+
+  .prose-skillup a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose-skillup a:hover {
+    color: var(--color-accent-strong);
+  }
+
+  .prose-skillup code {
+    background: rgba(57, 75, 90, 0.35);
+    border: 1px solid rgba(138, 122, 109, 0.3);
+    border-radius: 0.35rem;
+    padding: 0.1em 0.4em;
+    font-size: 0.85em;
+    color: var(--color-highlight);
+  }
+
+  .prose-skillup pre {
+    background: #10151C;
+    border: 1px solid rgba(138, 122, 109, 0.32);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1em 0 1.25em;
+  }
+
+  .prose-skillup pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: rgba(242, 239, 236, 0.9);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .prose-skillup blockquote {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1rem;
+    margin: 1em 0;
+    color: var(--color-muted-foreground);
+  }
+
+  .prose-skillup table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0 1.25em;
+    font-size: 0.875rem;
+  }
+
+  .prose-skillup th {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-border-strong);
+    color: var(--color-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  .prose-skillup td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .prose-skillup hr {
+    border: none;
+    height: 1px;
+    background: var(--color-border);
+    margin: 1.75em 0;
   }
 }
 

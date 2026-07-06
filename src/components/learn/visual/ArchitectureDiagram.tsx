@@ -40,17 +40,17 @@ export function ArchitectureDiagram({
           theme: "base",
           themeVariables: {
             background: "transparent",
-            primaryColor: "#0B2A38",
+            primaryColor: "#2C2A2B",
             primaryTextColor: "#F1F8F7",
-            primaryBorderColor: "#7AE2CF",
+            primaryBorderColor: "#7FA3C0",
             secondaryColor: "#082633",
             tertiaryColor: "#0F3444",
-            lineColor: "#7AE2CF",
+            lineColor: "#7FA3C0",
             textColor: "#F1F8F7",
-            mainBkg: "#0B2A38",
-            nodeBorder: "#7AE2CF",
-            clusterBkg: "rgba(11,42,56,0.5)",
-            clusterBorder: "rgba(122,226,207,0.35)",
+            mainBkg: "#2C2A2B",
+            nodeBorder: "#7FA3C0",
+            clusterBkg: "rgba(44,42,43,0.5)",
+            clusterBorder: "rgba(127,163,192,0.35)",
             edgeLabelBackground: "#082633",
             fontFamily: "Source Sans 3, system-ui, sans-serif",
           },
@@ -74,7 +74,7 @@ export function ArchitectureDiagram({
           node.style.transition = "filter 0.2s ease";
           node.addEventListener("mouseenter", (e) => {
             node.style.filter =
-              "drop-shadow(0 0 8px rgba(122,226,207,0.55))";
+              "drop-shadow(0 0 8px rgba(127,163,192,0.55))";
             const label =
               node.querySelector("text")?.textContent?.trim() ??
               node.getAttribute("id") ??
@@ -117,9 +117,9 @@ export function ArchitectureDiagram({
     >
       <div
         className="px-4 py-3 border-b flex items-center gap-2"
-        style={{ borderColor: "rgba(122,226,207,0.18)" }}
+        style={{ borderColor: "rgba(127,163,192,0.18)" }}
       >
-        <Network className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <Network className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
         <p className="section-label">{title}</p>
         <span className="ml-auto text-[10px] uppercase tracking-widest text-[color:var(--color-subtle-foreground)]">
           Hover parts
@@ -174,10 +174,10 @@ export function ArchitectureDiagram({
             style={{
               left: tip.x,
               top: tip.y,
-              background: "rgba(6,32,43,0.95)",
-              color: "#FDEB9E",
-              border: "1px solid rgba(253,235,158,0.45)",
-              boxShadow: "0 6px 16px rgba(4,16,22,0.55)",
+              background: "rgba(10,14,19,0.95)",
+              color: "#E8D5C4",
+              border: "1px solid rgba(232,213,196,0.45)",
+              boxShadow: "0 6px 16px rgba(3,5,8,0.55)",
             }}
           >
             {tip.label}

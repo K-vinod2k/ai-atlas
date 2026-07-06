@@ -35,6 +35,14 @@ function ensureSchema(sqlite: Database.Database) {
       content TEXT NOT NULL,
       created_at TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS node_progress (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      node_id TEXT NOT NULL,
+      status TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS idx_node_progress_node
+      ON node_progress (node_id, id);
   `);
 }
 

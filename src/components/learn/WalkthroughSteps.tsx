@@ -16,7 +16,7 @@ export function WalkthroughSteps({ steps }: WalkthroughStepsProps) {
     <section className="card" aria-label="Step-by-step walkthrough">
       <div className="flex items-center gap-2 mb-5">
         <ListOrdered
-          className="w-4 h-4 text-[#7AE2CF]"
+          className="w-4 h-4 text-[#7FA3C0]"
           aria-hidden="true"
         />
         <h3 className="section-label">Step-by-step walkthrough</h3>
@@ -27,7 +27,7 @@ export function WalkthroughSteps({ steps }: WalkthroughStepsProps) {
           className="absolute left-4 top-2 bottom-2 w-px"
           style={{
             background:
-              "linear-gradient(180deg, rgba(122,226,207,0.5), rgba(122,226,207,0.05))",
+              "linear-gradient(180deg, rgba(127,163,192,0.5), rgba(127,163,192,0.05))",
           }}
           aria-hidden="true"
         />
@@ -37,10 +37,10 @@ export function WalkthroughSteps({ steps }: WalkthroughStepsProps) {
             <span
               className="relative z-10 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
               style={{
-                background: "rgba(7,122,125,0.4)",
-                color: "#FDEB9E",
-                border: "1px solid rgba(253,235,158,0.5)",
-                boxShadow: "0 0 0 3px rgba(6,32,43,1)",
+                background: "rgba(57,75,90,0.4)",
+                color: "#E8D5C4",
+                border: "1px solid rgba(232,213,196,0.5)",
+                boxShadow: "0 0 0 3px rgba(10,14,19,1)",
               }}
               aria-hidden="true"
             >
@@ -57,8 +57,8 @@ export function WalkthroughSteps({ steps }: WalkthroughStepsProps) {
                 <div
                   className="mt-3 overflow-x-auto p-3 rounded-lg"
                   style={{
-                    background: "rgba(6,32,43,0.6)",
-                    border: "1px solid rgba(122,226,207,0.2)",
+                    background: "rgba(10,14,19,0.6)",
+                    border: "1px solid rgba(127,163,192,0.2)",
                   }}
                 >
                   <BlockMath math={step.formula} />

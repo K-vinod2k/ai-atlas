@@ -77,9 +77,9 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
     >
       <div
         className="px-4 py-3 border-b flex items-center gap-2"
-        style={{ borderColor: "rgba(122,226,207,0.18)" }}
+        style={{ borderColor: "rgba(127,163,192,0.18)" }}
       >
-        <Bot className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <Bot className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
         <div>
           <h2 className="heading-display text-sm font-semibold text-foreground">
             Guide
@@ -104,7 +104,7 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
               className="eyebrow block mb-1"
               style={{
                 color:
-                  msg.role === "user" ? "#7AE2CF" : "#FDEB9E",
+                  msg.role === "user" ? "#7FA3C0" : "#E8D5C4",
               }}
             >
               {msg.role === "user" ? "You" : "Guide"}
@@ -143,7 +143,7 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
 
       <div
         className="p-3 border-t flex gap-2"
-        style={{ borderColor: "rgba(122,226,207,0.18)" }}
+        style={{ borderColor: "rgba(127,163,192,0.18)" }}
       >
         <input
           type="text"
@@ -175,7 +175,7 @@ function renderMarkdownLite(text: string): ReactNode {
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
-        <strong key={i} className="font-semibold text-[#FDEB9E]">
+        <strong key={i} className="font-semibold text-[#E8D5C4]">
           {part.slice(2, -2)}
         </strong>
       );

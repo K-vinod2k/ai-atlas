@@ -13,14 +13,14 @@ export function MathBlock({ math }: MathBlockProps) {
   return (
     <section className="card">
       <div className="flex items-center gap-2 mb-3">
-        <Sigma className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <Sigma className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
         <h3 className="section-label">{math.title}</h3>
       </div>
       <div
         className="overflow-x-auto mb-4 p-4 rounded-xl"
         style={{
-          background: "rgba(6,32,43,0.75)",
-          border: "1px solid rgba(122,226,207,0.22)",
+          background: "rgba(10,14,19,0.75)",
+          border: "1px solid rgba(127,163,192,0.22)",
         }}
       >
         <BlockMath math={math.formula} />
@@ -35,7 +35,7 @@ export function MathBlock({ math }: MathBlockProps) {
             <div key={s.symbol} className="flex gap-3 text-sm">
               <dt
                 className="font-mono font-semibold min-w-[3rem]"
-                style={{ color: "#FDEB9E" }}
+                style={{ color: "#E8D5C4" }}
               >
                 {s.symbol}
               </dt>

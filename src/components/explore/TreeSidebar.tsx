@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import type { IndexedNode, NodeKind } from "@/data/types";
+import { PROGRESS_COLOR, PROGRESS_LABEL } from "@/data/types";
 import { nodeSearchText } from "@/data/taxonomy";
+import { useProgress } from "@/components/progress/ProgressProvider";
 
 const KIND_OPTIONS: Array<{ id: NodeKind | "all"; label: string }> = [
   { id: "all", label: "All" },
@@ -31,6 +33,7 @@ export function TreeSidebar({
   onSelectNode,
 }: TreeSidebarProps) {
   const router = useRouter();
+  const { statusOf } = useProgress();
   const [query, setQuery] = useState("");
   const [kindFilter, setKindFilter] = useState<NodeKind | "all">("all");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
@@ -131,7 +134,7 @@ export function TreeSidebar({
               className={`relative w-full flex items-center gap-1.5 px-2 py-2 rounded-lg text-left text-sm cursor-pointer transition-all duration-200 ${
                 isSelected
                   ? "tree-item-selected"
-                  : "text-[color:var(--color-foreground)]/80 hover:bg-[rgba(122,226,207,0.06)] hover:text-[#7AE2CF]"
+                  : "text-[color:var(--color-foreground)]/80 hover:bg-[rgba(127,163,192,0.06)] hover:text-[#7FA3C0]"
               }`}
               style={{ paddingLeft: depth * 14 + 10 }}
               aria-current={isSelected ? "page" : undefined}
@@ -150,7 +153,7 @@ export function TreeSidebar({
                       toggle(n.id);
                     }
                   }}
-                  className="w-5 h-5 flex items-center justify-center shrink-0 cursor-pointer text-[color:var(--color-muted-foreground)] hover:text-[#7AE2CF]"
+                  className="w-5 h-5 flex items-center justify-center shrink-0 cursor-pointer text-[color:var(--color-muted-foreground)] hover:text-[#7FA3C0]"
                   aria-label={isOpen ? "Collapse" : "Expand"}
                 >
                   {isOpen ? (
@@ -163,8 +166,14 @@ export function TreeSidebar({
                 <span className="w-5 h-5 shrink-0" aria-hidden="true" />
               )}
               <span
+                className="w-1.5 h-1.5 rounded-full shrink-0"
+                style={{ background: PROGRESS_COLOR[statusOf(n.id)] }}
+                title={PROGRESS_LABEL[statusOf(n.id)]}
+                aria-hidden="true"
+              />
+              <span
                 className={
-                  isHit ? "font-semibold text-[#FDEB9E]" : ""
+                  isHit ? "font-semibold text-[#E8D5C4]" : ""
                 }
               >
                 {n.name}
@@ -186,7 +195,7 @@ export function TreeSidebar({
     <div className="flex flex-col h-full">
       <div
         className="p-3 border-b space-y-2.5"
-        style={{ borderColor: "rgba(122,226,207,0.14)" }}
+        style={{ borderColor: "rgba(127,163,192,0.14)" }}
       >
         <div className="relative">
           <Search

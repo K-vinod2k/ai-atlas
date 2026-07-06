@@ -79,30 +79,30 @@ export function ConceptInspector({ node, onSelectNode }: ConceptInspectorProps) 
     >
       <header
         className="flex items-center gap-2 px-4 py-3 border-b"
-        style={{ borderColor: "rgba(122,226,207,0.18)" }}
+        style={{ borderColor: "rgba(127,163,192,0.18)" }}
       >
-        <KeyRound className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <KeyRound className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
         <p className="section-label">Key concepts</p>
         <span className="ml-auto text-[11px] text-[color:var(--color-muted-foreground)]">
           {items.length} terms
         </span>
       </header>
 
-      <ul className="divide-y" style={{ borderColor: "rgba(122,226,207,0.12)" }}>
+      <ul className="divide-y" style={{ borderColor: "rgba(127,163,192,0.12)" }}>
         {items.map((item) => {
           const isOpen = openKey === item.key;
           return (
-            <li key={item.key} className="border-t border-[rgba(122,226,207,0.10)] first:border-t-0">
+            <li key={item.key} className="border-t border-[rgba(127,163,192,0.10)] first:border-t-0">
               <button
                 type="button"
                 onClick={() => toggle(item.key)}
                 aria-expanded={isOpen}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer transition-colors duration-200 hover:bg-[rgba(122,226,207,0.06)]"
+                className="w-full flex items-center gap-3 px-4 py-3 text-left cursor-pointer transition-colors duration-200 hover:bg-[rgba(127,163,192,0.06)]"
               >
                 <ChevronRight
                   className="w-4 h-4 shrink-0 transition-transform duration-200"
                   style={{
-                    color: isOpen ? "#FDEB9E" : "rgba(122,226,207,0.6)",
+                    color: isOpen ? "#E8D5C4" : "rgba(127,163,192,0.6)",
                     transform: isOpen ? "rotate(90deg)" : "none",
                   }}
                   aria-hidden="true"
@@ -110,7 +110,7 @@ export function ConceptInspector({ node, onSelectNode }: ConceptInspectorProps) 
                 <span
                   className="flex-1 min-w-0 truncate text-sm font-medium"
                   style={{
-                    color: isOpen ? "#FDEB9E" : "var(--color-foreground)",
+                    color: isOpen ? "#E8D5C4" : "var(--color-foreground)",
                     fontFamily:
                       item.kind === "symbol"
                         ? "ui-monospace, SFMono-Regular, monospace"

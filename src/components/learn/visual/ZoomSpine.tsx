@@ -17,7 +17,7 @@ export function ZoomSpine({ path, onSelectNode }: ZoomSpineProps) {
       aria-label="Concept zoom spine"
     >
       <div className="flex items-center gap-2 mb-3">
-        <Layers className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <Layers className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
         <p className="section-label">Zoom spine</p>
         <span className="ml-auto text-[11px] text-[color:var(--color-muted-foreground)]">
           Depth {path.length - 1}
@@ -29,7 +29,7 @@ export function ZoomSpine({ path, onSelectNode }: ZoomSpineProps) {
           className="absolute left-3 right-3 top-[13px] h-px"
           style={{
             background:
-              "linear-gradient(90deg, transparent, rgba(122,226,207,0.55), transparent)",
+              "linear-gradient(90deg, transparent, rgba(127,163,192,0.55), transparent)",
           }}
           aria-hidden="true"
         />
@@ -47,15 +47,15 @@ export function ZoomSpine({ path, onSelectNode }: ZoomSpineProps) {
                 className="relative w-6 h-6 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer"
                 style={{
                   background: isCurrent
-                    ? "#FDEB9E"
-                    : "rgba(11,42,56,0.9)",
+                    ? "#E8D5C4"
+                    : "rgba(44,42,43,0.9)",
                   border: `2px solid ${
                     isCurrent
-                      ? "#FDEB9E"
-                      : "rgba(122,226,207,0.55)"
+                      ? "#E8D5C4"
+                      : "rgba(127,163,192,0.55)"
                   }`,
                   boxShadow: isCurrent
-                    ? "0 0 0 4px rgba(253,235,158,0.18), 0 0 12px rgba(253,235,158,0.35)"
+                    ? "0 0 0 4px rgba(232,213,196,0.18), 0 0 12px rgba(232,213,196,0.35)"
                     : "none",
                 }}
                 aria-label={`Jump to ${node.name}`}
@@ -63,7 +63,7 @@ export function ZoomSpine({ path, onSelectNode }: ZoomSpineProps) {
                 <span
                   className="w-2 h-2 rounded-full"
                   style={{
-                    background: isCurrent ? "#06202B" : "#7AE2CF",
+                    background: isCurrent ? "#0A0E13" : "#7FA3C0",
                   }}
                   aria-hidden="true"
                 />
@@ -72,7 +72,7 @@ export function ZoomSpine({ path, onSelectNode }: ZoomSpineProps) {
                 className="text-[11px] font-medium text-center leading-tight max-w-[8rem] truncate"
                 style={{
                   color: isCurrent
-                    ? "#FDEB9E"
+                    ? "#E8D5C4"
                     : "var(--color-muted-foreground)",
                 }}
                 title={node.name}

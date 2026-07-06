@@ -44,9 +44,9 @@ export function NodeNewsCard({ nodeId }: NodeNewsCardProps) {
     >
       <header
         className="px-4 py-3 border-b flex items-center gap-2"
-        style={{ borderColor: "rgba(122,226,207,0.18)" }}
+        style={{ borderColor: "rgba(127,163,192,0.18)" }}
       >
-        <Newspaper className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <Newspaper className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
         <p className="section-label">What&apos;s new</p>
         {!loading && items.length > 0 && (
           <span className="badge-highlight badge ml-auto">
@@ -86,9 +86,9 @@ export function NodeNewsCard({ nodeId }: NodeNewsCardProps) {
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-start gap-2 text-foreground hover:text-[#7AE2CF] transition-colors duration-200 cursor-pointer"
+                  className="group inline-flex items-start gap-2 text-foreground hover:text-[#7FA3C0] transition-colors duration-200 cursor-pointer"
                 >
-                  <span className="mt-1 w-1.5 h-1.5 rounded-full shrink-0 bg-[#7AE2CF]" aria-hidden="true" />
+                  <span className="mt-1 w-1.5 h-1.5 rounded-full shrink-0 bg-[#7FA3C0]" aria-hidden="true" />
                   <span className="flex-1 leading-snug font-medium">
                     {item.title}
                     <ExternalLink
@@ -108,7 +108,7 @@ export function NodeNewsCard({ nodeId }: NodeNewsCardProps) {
         {!loading && !error && items.length > 0 && (
           <Link
             href="/feed"
-            className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-[#7AE2CF] hover:text-[#FDEB9E] transition-colors duration-200 cursor-pointer"
+            className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-[#7FA3C0] hover:text-[#E8D5C4] transition-colors duration-200 cursor-pointer"
           >
             View all news
             <ExternalLink className="w-3 h-3" aria-hidden="true" />

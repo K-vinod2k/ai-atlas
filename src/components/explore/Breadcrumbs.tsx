@@ -20,7 +20,7 @@ export function Breadcrumbs({ path, onSelectNode }: BreadcrumbsProps) {
           {i > 0 && (
             <ChevronRight
               className="w-3 h-3"
-              style={{ color: "rgba(122,226,207,0.4)" }}
+              style={{ color: "rgba(127,163,192,0.4)" }}
               aria-hidden="true"
             />
           )}
@@ -29,14 +29,14 @@ export function Breadcrumbs({ path, onSelectNode }: BreadcrumbsProps) {
               <button
                 type="button"
                 onClick={() => onSelectNode(node.id)}
-                className="text-[color:var(--color-muted-foreground)] hover:text-[#7AE2CF] transition-colors duration-200 cursor-pointer tracking-wide uppercase"
+                className="text-[color:var(--color-muted-foreground)] hover:text-[#7FA3C0] transition-colors duration-200 cursor-pointer tracking-wide uppercase"
               >
                 {node.name}
               </button>
             ) : (
               <Link
                 href={`/node/${node.id}`}
-                className="text-[color:var(--color-muted-foreground)] hover:text-[#7AE2CF] transition-colors duration-200 cursor-pointer tracking-wide uppercase"
+                className="text-[color:var(--color-muted-foreground)] hover:text-[#7FA3C0] transition-colors duration-200 cursor-pointer tracking-wide uppercase"
               >
                 {node.name}
               </Link>
@@ -44,7 +44,7 @@ export function Breadcrumbs({ path, onSelectNode }: BreadcrumbsProps) {
           ) : (
             <span
               className="font-semibold tracking-wide uppercase"
-              style={{ color: "#FDEB9E" }}
+              style={{ color: "#E8D5C4" }}
               aria-current="page"
             >
               {node.name}

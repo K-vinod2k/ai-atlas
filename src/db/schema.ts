@@ -33,6 +33,18 @@ export const chatMessages = sqliteTable("chat_messages", {
   createdAt: text("created_at").notNull(),
 });
 
+/**
+ * Progress event log: one row per status change (node_id, status, updated_at).
+ * Latest row per node = current status; distinct dates power the streak.
+ */
+export const nodeProgress = sqliteTable("node_progress", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  nodeId: text("node_id").notNull(),
+  status: text("status").notNull(),
+  updatedAt: text("updated_at").notNull(),
+});
+
 export type NewsItem = typeof newsItems.$inferSelect;
 export type NewsNodeTag = typeof newsNodeTags.$inferSelect;
 export type ChatMessage = typeof chatMessages.$inferSelect;
+export type NodeProgressRow = typeof nodeProgress.$inferSelect;

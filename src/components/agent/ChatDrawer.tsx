@@ -31,7 +31,7 @@ export function ChatDrawer({ open, onClose, onNavigate }: ChatDrawerProps) {
         type="button"
         aria-label="Close guide"
         onClick={onClose}
-        className={`absolute inset-0 bg-[#020F15]/70 backdrop-blur-[2px] transition-opacity duration-200 ${
+        className={`absolute inset-0 bg-[#05070A]/70 backdrop-blur-[2px] transition-opacity duration-200 ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0"
         }`}
       />
@@ -44,13 +44,13 @@ export function ChatDrawer({ open, onClose, onNavigate }: ChatDrawerProps) {
           open ? "translate-x-0 pointer-events-auto" : "translate-x-full"
         }`}
         style={{
-          borderLeft: "1px solid rgba(122, 226, 207, 0.35)",
+          borderLeft: "1px solid rgba(127, 163, 192, 0.35)",
           borderRadius: 0,
         }}
       >
         <div
           className="flex items-center justify-between px-5 py-4 border-b"
-          style={{ borderColor: "rgba(122, 226, 207, 0.22)" }}
+          style={{ borderColor: "rgba(127, 163, 192, 0.22)" }}
         >
           <div>
             <p className="eyebrow">Guide</p>

@@ -87,7 +87,7 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
         }}
       >
         <aside
-          className="sticky top-16 self-start h-[calc(100vh-64px)] border-r border-[rgba(122,226,207,0.14)] flex flex-col bg-[rgba(6,32,43,0.55)] backdrop-blur-md"
+          className="sticky top-16 self-start h-[calc(100vh-64px)] border-r border-[rgba(127,163,192,0.14)] flex flex-col bg-[rgba(10,14,19,0.55)] backdrop-blur-md"
           aria-label="Taxonomy tree"
         >
           {treeCollapsed ? (
@@ -109,9 +109,9 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
             </div>
           ) : (
             <>
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-[rgba(122,226,207,0.14)]">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-[rgba(127,163,192,0.14)]">
                 <Layers
-                  className="w-4 h-4 text-[#7AE2CF]"
+                  className="w-4 h-4 text-[#7FA3C0]"
                   aria-hidden="true"
                 />
                 <span className="section-label">Taxonomy</span>
@@ -137,7 +137,7 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
         </aside>
 
         <section
-          className="min-w-0 border-r border-[rgba(122,226,207,0.14)] px-6 xl:px-10 py-8 overflow-visible"
+          className="min-w-0 border-r border-[rgba(127,163,192,0.14)] px-6 xl:px-10 py-8 overflow-visible"
           aria-label="Concept explanation"
         >
           <div className="max-w-[62ch] mx-auto">
@@ -155,7 +155,7 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
         >
           <div className="mb-4 flex items-center gap-2">
             <Sparkles
-              className="w-4 h-4 text-[#FDEB9E]"
+              className="w-4 h-4 text-[#E8D5C4]"
               aria-hidden="true"
             />
             <p className="eyebrow">Visual playground</p>
@@ -173,7 +173,7 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
 
       <div className="lg:hidden">
         <div
-          className="sticky top-[57px] z-20 bg-[rgba(6,32,43,0.9)] backdrop-blur-md border-b border-[rgba(122,226,207,0.18)] px-4 py-2 flex items-center gap-2"
+          className="sticky top-[57px] z-20 bg-[rgba(10,14,19,0.9)] backdrop-blur-md border-b border-[rgba(127,163,192,0.18)] px-4 py-2 flex items-center gap-2"
         >
           <button
             type="button"
@@ -187,8 +187,8 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
           <div
             className="ml-auto inline-flex rounded-lg p-0.5"
             style={{
-              background: "rgba(11,42,56,0.7)",
-              border: "1px solid rgba(122,226,207,0.22)",
+              background: "rgba(44,42,43,0.7)",
+              border: "1px solid rgba(127,163,192,0.22)",
             }}
             role="tablist"
             aria-label="Content view"
@@ -200,7 +200,7 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
               onClick={() => setMobileTab("read")}
               className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors duration-200 flex items-center gap-1.5 cursor-pointer ${
                 mobileTab === "read"
-                  ? "bg-[#077A7D] text-[#FDEB9E]"
+                  ? "bg-[#394B5A] text-[#E8D5C4]"
                   : "text-[color:var(--color-muted-foreground)]"
               }`}
             >
@@ -214,7 +214,7 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
               onClick={() => setMobileTab("visualize")}
               className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors duration-200 flex items-center gap-1.5 cursor-pointer ${
                 mobileTab === "visualize"
-                  ? "bg-[#077A7D] text-[#FDEB9E]"
+                  ? "bg-[#394B5A] text-[#E8D5C4]"
                   : "text-[color:var(--color-muted-foreground)]"
               }`}
             >
@@ -250,13 +250,13 @@ export function LearnWorkspace({ initialNodeId }: LearnWorkspaceProps) {
         >
           <button
             type="button"
-            className="absolute inset-0 bg-[#020F15]/70 backdrop-blur-sm cursor-pointer"
+            className="absolute inset-0 bg-[#05070A]/70 backdrop-blur-sm cursor-pointer"
             onClick={() => setMobileTreeOpen(false)}
             aria-label="Close taxonomy browser"
           />
           <div className="relative w-[min(320px,85vw)] h-full glass-panel-strong flex flex-col rounded-none">
-            <div className="px-4 py-3 border-b border-[rgba(122,226,207,0.22)] flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+            <div className="px-4 py-3 border-b border-[rgba(127,163,192,0.22)] flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
               <span className="section-label">Taxonomy</span>
               <button
                 type="button"

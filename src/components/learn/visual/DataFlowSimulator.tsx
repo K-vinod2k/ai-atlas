@@ -78,9 +78,9 @@ export function DataFlowSimulator({ edges }: DataFlowSimulatorProps) {
     >
       <header
         className="flex items-center gap-2 px-4 py-3 border-b"
-        style={{ borderColor: "rgba(122,226,207,0.18)" }}
+        style={{ borderColor: "rgba(127,163,192,0.18)" }}
       >
-        <Waves className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <Waves className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
         <p className="section-label">Data flow simulator</p>
         <span className="ml-auto text-[11px] font-mono tabular-nums text-[color:var(--color-muted-foreground)]">
           Step {step + 1} / {edges.length}
@@ -98,13 +98,13 @@ export function DataFlowSimulator({ edges }: DataFlowSimulatorProps) {
                 className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 rounded-lg px-2 py-1.5 transition-all duration-300"
                 style={{
                   background: isActive
-                    ? "rgba(122,226,207,0.08)"
+                    ? "rgba(127,163,192,0.08)"
                     : "transparent",
                   border: isActive
-                    ? "1px solid rgba(122,226,207,0.4)"
+                    ? "1px solid rgba(127,163,192,0.4)"
                     : "1px solid transparent",
                   boxShadow: isActive
-                    ? "0 0 0 3px rgba(122,226,207,0.08)"
+                    ? "0 0 0 3px rgba(127,163,192,0.08)"
                     : "none",
                   opacity: isDone && !isActive ? 0.75 : 1,
                 }}
@@ -112,12 +112,12 @@ export function DataFlowSimulator({ edges }: DataFlowSimulatorProps) {
                 <span
                   className="text-sm px-2.5 py-1.5 rounded-md truncate font-medium"
                   style={{
-                    background: "rgba(11,42,56,0.7)",
-                    color: isActive ? "#FDEB9E" : "var(--color-foreground)",
+                    background: "rgba(44,42,43,0.7)",
+                    color: isActive ? "#E8D5C4" : "var(--color-foreground)",
                     border: `1px solid ${
                       isActive
-                        ? "rgba(253,235,158,0.5)"
-                        : "rgba(122,226,207,0.2)"
+                        ? "rgba(232,213,196,0.5)"
+                        : "rgba(127,163,192,0.2)"
                     }`,
                   }}
                 >
@@ -129,7 +129,7 @@ export function DataFlowSimulator({ edges }: DataFlowSimulatorProps) {
                     className="text-[10px] italic font-medium tracking-wide truncate max-w-[9rem] text-center"
                     style={{
                       color: isActive
-                        ? "#FDEB9E"
+                        ? "#E8D5C4"
                         : "var(--color-muted-foreground)",
                     }}
                   >
@@ -138,9 +138,9 @@ export function DataFlowSimulator({ edges }: DataFlowSimulatorProps) {
                   <ArrowRight
                     className="w-4 h-4 transition-all duration-300"
                     style={{
-                      color: isActive ? "#7AE2CF" : "rgba(122,226,207,0.35)",
+                      color: isActive ? "#7FA3C0" : "rgba(127,163,192,0.35)",
                       filter: isActive
-                        ? "drop-shadow(0 0 6px rgba(122,226,207,0.9))"
+                        ? "drop-shadow(0 0 6px rgba(127,163,192,0.9))"
                         : "none",
                     }}
                     aria-hidden="true"
@@ -151,13 +151,13 @@ export function DataFlowSimulator({ edges }: DataFlowSimulatorProps) {
                   className="text-sm px-2.5 py-1.5 rounded-md truncate font-medium"
                   style={{
                     background: isActive
-                      ? "rgba(7,122,125,0.35)"
-                      : "rgba(11,42,56,0.7)",
-                    color: isActive ? "#FDEB9E" : "var(--color-foreground)",
+                      ? "rgba(57,75,90,0.35)"
+                      : "rgba(44,42,43,0.7)",
+                    color: isActive ? "#E8D5C4" : "var(--color-foreground)",
                     border: `1px solid ${
                       isActive
-                        ? "rgba(253,235,158,0.5)"
-                        : "rgba(122,226,207,0.2)"
+                        ? "rgba(232,213,196,0.5)"
+                        : "rgba(127,163,192,0.2)"
                     }`,
                   }}
                 >
@@ -170,7 +170,7 @@ export function DataFlowSimulator({ edges }: DataFlowSimulatorProps) {
 
         <div
           className="mt-4 pt-3 border-t flex items-center gap-2"
-          style={{ borderColor: "rgba(122,226,207,0.18)" }}
+          style={{ borderColor: "rgba(127,163,192,0.18)" }}
         >
           <button
             type="button"

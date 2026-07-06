@@ -27,8 +27,16 @@ src/
 
 - `src/data/taxonomy.ts` — tree data + index utilities (byId, byName, search, path)
 - `src/data/math-content.ts` — KaTeX formulas for math-bearing nodes
+- `src/data/skillup-content.ts` + `src/data/skillup.ts` — Skillup notes/roadmap (markdown bodies + index)
+- `src/lib/progress/store.ts` — progress event log queries (node_progress table)
+- `src/components/progress/` — ProgressProvider context, mark buttons, dashboard
 - `src/lib/agent/local-guide.ts` — deterministic guide (no API key)
 - `src/lib/feed/` — arXiv, HN, RSS fetchers + keyword tagger
+
+## Routes
+
+- `/learn` — 3-column workspace; `/skillup` + `/skillup/[slug]` — Skillup library
+- `/progress` — learning tracker dashboard; `/api/progress` — GET snapshot / POST status
 
 ## Conventions
 

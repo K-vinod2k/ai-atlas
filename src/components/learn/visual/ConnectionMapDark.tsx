@@ -30,23 +30,23 @@ const NODE_R = 42;
 
 const COLORS = {
   current: {
-    fill: "rgba(253,235,158,0.16)",
-    stroke: "#FDEB9E",
-    text: "#FDEB9E",
+    fill: "rgba(232,213,196,0.16)",
+    stroke: "#E8D5C4",
+    text: "#E8D5C4",
   },
   parent: {
-    fill: "rgba(11,42,56,0.9)",
-    stroke: "rgba(122,226,207,0.7)",
+    fill: "rgba(44,42,43,0.9)",
+    stroke: "rgba(127,163,192,0.7)",
     text: "#F1F8F7",
   },
   child: {
-    fill: "rgba(11,42,56,0.9)",
-    stroke: "rgba(122,226,207,0.55)",
+    fill: "rgba(44,42,43,0.9)",
+    stroke: "rgba(127,163,192,0.55)",
     text: "#F1F8F7",
   },
   link: {
-    fill: "rgba(11,42,56,0.9)",
-    stroke: "rgba(122,226,207,0.4)",
+    fill: "rgba(44,42,43,0.9)",
+    stroke: "rgba(127,163,192,0.4)",
     text: "#F1F8F7",
   },
 } as const;
@@ -124,9 +124,9 @@ export function ConnectionMapDark({ node, onSelectNode }: ConnectionMapDarkProps
     >
       <header
         className="px-4 py-3 border-b flex items-center gap-2"
-        style={{ borderColor: "rgba(122,226,207,0.18)" }}
+        style={{ borderColor: "rgba(127,163,192,0.18)" }}
       >
-        <Radar className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <Radar className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
         <p className="section-label">Connection neighborhood</p>
         <span className="ml-auto text-[11px] text-[color:var(--color-muted-foreground)]">
           Click to jump
@@ -149,7 +149,7 @@ export function ConnectionMapDark({ node, onSelectNode }: ConnectionMapDarkProps
               refY="3"
               orient="auto"
             >
-              <polygon points="0 0, 8 3, 0 6" fill="#7AE2CF" opacity="0.75" />
+              <polygon points="0 0, 8 3, 0 6" fill="#7FA3C0" opacity="0.75" />
             </marker>
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur stdDeviation="2" result="blur" />
@@ -178,7 +178,7 @@ export function ConnectionMapDark({ node, onSelectNode }: ConnectionMapDarkProps
                 y1={from.y + ny * 0.4}
                 x2={to.x - nx * 0.7}
                 y2={to.y - ny * 0.7}
-                stroke="#7AE2CF"
+                stroke="#7FA3C0"
                 strokeOpacity={edge.dashed ? 0.4 : 0.65}
                 strokeWidth={1.5}
                 strokeDasharray={edge.dashed ? "4 3" : undefined}
