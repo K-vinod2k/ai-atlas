@@ -3,14 +3,14 @@ import { Baloo_2, Comic_Neue } from "next/font/google";
 import "./globals.css";
 
 const baloo2 = Baloo_2({
-  variable: "--font-heading",
+  variable: "--font-baloo",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 const comicNeue = Comic_Neue({
-  variable: "--font-body",
+  variable: "--font-comic",
   subsets: ["latin"],
   weight: ["300", "400", "700"],
   display: "swap",
