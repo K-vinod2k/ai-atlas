@@ -71,22 +71,22 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
 
   return (
     <div
-      className={`flex flex-col h-full card ${compact ? "max-h-48" : "h-full min-h-[320px]"}`}
-      style={{ padding: 0 }}
+      className={`flex flex-col h-full glass-panel rounded-2xl overflow-hidden ${
+        compact ? "max-h-48" : "min-h-[320px]"
+      }`}
     >
       <div
         className="px-4 py-3 border-b flex items-center gap-2"
-        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+        style={{ borderColor: "rgba(122,226,207,0.18)" }}
       >
-        <Bot className="w-4 h-4 text-primary" aria-hidden="true" />
+        <Bot className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
         <div>
-          <h2
-            className="text-sm font-semibold text-foreground"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
+          <h2 className="heading-display text-sm font-semibold text-foreground">
             Guide
           </h2>
-          <p className="text-xs text-muted-foreground">Offline local guide (no API key)</p>
+          <p className="text-[11px] text-[color:var(--color-muted-foreground)]">
+            Offline local guide (no API key)
+          </p>
         </div>
       </div>
 
@@ -99,22 +99,28 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
         aria-label="Chat messages"
       >
         {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`text-sm ${
-              msg.role === "user" ? "text-foreground" : "text-foreground/80"
-            }`}
-          >
-            <span className="section-label block mb-1">
+          <div key={i} className="text-sm">
+            <span
+              className="eyebrow block mb-1"
+              style={{
+                color:
+                  msg.role === "user" ? "#7AE2CF" : "#FDEB9E",
+              }}
+            >
               {msg.role === "user" ? "You" : "Guide"}
             </span>
-            <div className="whitespace-pre-wrap leading-relaxed">
+            <div
+              className="whitespace-pre-wrap leading-relaxed text-[color:var(--color-foreground)]/90"
+            >
               {renderMarkdownLite(msg.content)}
             </div>
           </div>
         ))}
         {loading && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground" role="status">
+          <div
+            className="flex items-center gap-2 text-sm text-[color:var(--color-muted-foreground)]"
+            role="status"
+          >
             <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
             <span>Thinking...</span>
           </div>
@@ -123,10 +129,11 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
 
       {error && (
         <div
-          className="px-4 py-2 text-sm text-destructive border-t"
+          className="px-4 py-2 text-sm border-t"
           style={{
-            borderColor: "color-mix(in srgb, var(--color-destructive) 20%, transparent)",
-            background: "color-mix(in srgb, var(--color-destructive) 8%, var(--color-surface))",
+            borderColor: "rgba(244,154,138,0.28)",
+            background: "rgba(244,154,138,0.08)",
+            color: "var(--color-destructive)",
           }}
           role="alert"
         >
@@ -135,8 +142,8 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
       )}
 
       <div
-        className="p-4 border-t flex gap-2"
-        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+        className="p-3 border-t flex gap-2"
+        style={{ borderColor: "rgba(122,226,207,0.18)" }}
       >
         <input
           type="text"
@@ -152,7 +159,7 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
           type="button"
           onClick={send}
           disabled={loading || !input.trim()}
-          className="btn-primary px-4 py-2"
+          className="btn-primary px-3 py-2"
           aria-label="Send message"
         >
           <Send className="w-4 h-4" aria-hidden="true" />
@@ -168,7 +175,7 @@ function renderMarkdownLite(text: string): ReactNode {
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
-        <strong key={i} className="font-semibold text-foreground">
+        <strong key={i} className="font-semibold text-[#FDEB9E]">
           {part.slice(2, -2)}
         </strong>
       );

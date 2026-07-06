@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { Network } from "lucide-react";
+import { Radar } from "lucide-react";
 import { getNodeById, getNodeIdByName, getPath } from "@/data/taxonomy";
 import type { TaxonomyNode } from "@/data/types";
 
@@ -19,16 +19,39 @@ interface GraphEdge {
   dashed?: boolean;
 }
 
-interface ConnectionMapProps {
+interface ConnectionMapDarkProps {
   node: TaxonomyNode;
   onSelectNode: (id: string) => void;
 }
 
 const W = 560;
-const H = 140;
-const NODE_R = 36;
+const H = 240;
+const NODE_R = 42;
 
-export function ConnectionMap({ node, onSelectNode }: ConnectionMapProps) {
+const COLORS = {
+  current: {
+    fill: "rgba(253,235,158,0.16)",
+    stroke: "#FDEB9E",
+    text: "#FDEB9E",
+  },
+  parent: {
+    fill: "rgba(11,42,56,0.9)",
+    stroke: "rgba(122,226,207,0.7)",
+    text: "#F1F8F7",
+  },
+  child: {
+    fill: "rgba(11,42,56,0.9)",
+    stroke: "rgba(122,226,207,0.55)",
+    text: "#F1F8F7",
+  },
+  link: {
+    fill: "rgba(11,42,56,0.9)",
+    stroke: "rgba(122,226,207,0.4)",
+    text: "#F1F8F7",
+  },
+} as const;
+
+export function ConnectionMapDark({ node, onSelectNode }: ConnectionMapDarkProps) {
   const { nodes, edges } = useMemo(() => {
     const path = getPath(node.id);
     const parent = path.length > 1 ? path[path.length - 2] : null;
@@ -41,14 +64,20 @@ export function ConnectionMap({ node, onSelectNode }: ConnectionMapProps) {
     const graphNodes: GraphNode[] = [];
     const graphEdges: GraphEdge[] = [];
 
-    graphNodes.push({ id: node.id, name: node.name, x: W / 2, y: H / 2, role: "current" });
+    graphNodes.push({
+      id: node.id,
+      name: node.name,
+      x: W / 2,
+      y: H / 2,
+      role: "current",
+    });
 
     if (parent) {
       graphNodes.push({
         id: parent.id,
         name: parent.name,
         x: W / 2,
-        y: 28,
+        y: 44,
         role: "parent",
       });
       graphEdges.push({ from: parent.id, to: node.id });
@@ -56,13 +85,13 @@ export function ConnectionMap({ node, onSelectNode }: ConnectionMapProps) {
 
     const childCount = Math.min(children.length, 4);
     children.slice(0, 4).forEach((child, i) => {
-      const spread = childCount > 1 ? (W - 120) / (childCount - 1) : 0;
-      const x = childCount === 1 ? W / 2 : 60 + i * spread;
+      const spread = childCount > 1 ? (W - 160) / (childCount - 1) : 0;
+      const x = childCount === 1 ? W / 2 : 80 + i * spread;
       graphNodes.push({
         id: child.id,
         name: child.name,
         x,
-        y: H - 28,
+        y: H - 44,
         role: "child",
       });
       graphEdges.push({ from: node.id, to: child.id });
@@ -71,12 +100,13 @@ export function ConnectionMap({ node, onSelectNode }: ConnectionMapProps) {
     linkIds.slice(0, 3).forEach((linkId, i) => {
       const linked = getNodeById(linkId);
       if (!linked || graphNodes.some((n) => n.id === linkId)) return;
-      const angle = (Math.PI / 4) * (i + 1);
+      const side = i === 0 ? -1 : 1;
+      const yOffset = i === 2 ? 40 : 0;
       graphNodes.push({
         id: linkId,
         name: linked.node.name,
-        x: W / 2 + Math.cos(angle) * 200,
-        y: H / 2 + Math.sin(angle) * 20,
+        x: W / 2 + side * 220,
+        y: H / 2 + yOffset,
         role: "link",
       });
       graphEdges.push({ from: node.id, to: linkId, dashed: true });
@@ -87,37 +117,23 @@ export function ConnectionMap({ node, onSelectNode }: ConnectionMapProps) {
 
   if (nodes.length <= 1) return null;
 
-  const nodeColor = (role: GraphNode["role"]) => {
-    switch (role) {
-      case "current":
-        return { fill: "color-mix(in srgb, var(--color-primary) 20%, var(--color-surface))", stroke: "var(--color-primary)" };
-      case "parent":
-        return { fill: "var(--color-surface)", stroke: "var(--color-muted-foreground)" };
-      case "child":
-        return { fill: "var(--color-surface)", stroke: "var(--color-secondary)" };
-      default:
-        return { fill: "var(--color-surface)", stroke: "var(--color-accent)" };
-    }
-  };
-
   return (
     <section
-      className="rounded-xl overflow-hidden"
-      style={{
-        background: "var(--color-surface)",
-        border: "1px solid color-mix(in srgb, var(--color-border) 40%, transparent)",
-      }}
-      aria-label="Concept connections"
+      className="glass-panel rounded-2xl overflow-hidden fade-in"
+      aria-label="Local connection map"
     >
-      <div
-        className="px-4 py-2.5 border-b flex items-center gap-2"
-        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+      <header
+        className="px-4 py-3 border-b flex items-center gap-2"
+        style={{ borderColor: "rgba(122,226,207,0.18)" }}
       >
-        <Network className="w-4 h-4 text-primary" aria-hidden="true" />
-        <p className="section-label">Local connection map</p>
-      </div>
+        <Radar className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <p className="section-label">Connection neighborhood</p>
+        <span className="ml-auto text-[11px] text-[color:var(--color-muted-foreground)]">
+          Click to jump
+        </span>
+      </header>
 
-      <div className="p-2 overflow-x-auto">
+      <div className="p-3">
         <svg
           viewBox={`0 0 ${W} ${H}`}
           className="w-full min-w-[320px] h-auto"
@@ -126,15 +142,22 @@ export function ConnectionMap({ node, onSelectNode }: ConnectionMapProps) {
         >
           <defs>
             <marker
-              id="arrowhead"
+              id="arrowhead-mint"
               markerWidth="8"
               markerHeight="6"
               refX="7"
               refY="3"
               orient="auto"
             >
-              <polygon points="0 0, 8 3, 0 6" fill="var(--color-primary)" opacity="0.6" />
+              <polygon points="0 0, 8 3, 0 6" fill="#7AE2CF" opacity="0.75" />
             </marker>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
           </defs>
 
           {edges.map((edge) => {
@@ -151,29 +174,28 @@ export function ConnectionMap({ node, onSelectNode }: ConnectionMapProps) {
             return (
               <line
                 key={`${edge.from}-${edge.to}`}
-                x1={from.x + nx * 0.3}
-                y1={from.y + ny * 0.3}
-                x2={to.x - nx * 0.5}
-                y2={to.y - ny * 0.5}
-                stroke="var(--color-primary)"
-                strokeOpacity={edge.dashed ? 0.35 : 0.55}
+                x1={from.x + nx * 0.4}
+                y1={from.y + ny * 0.4}
+                x2={to.x - nx * 0.7}
+                y2={to.y - ny * 0.7}
+                stroke="#7AE2CF"
+                strokeOpacity={edge.dashed ? 0.4 : 0.65}
                 strokeWidth={1.5}
                 strokeDasharray={edge.dashed ? "4 3" : undefined}
-                markerEnd="url(#arrowhead)"
+                markerEnd="url(#arrowhead-mint)"
               />
             );
           })}
 
           {nodes.map((n) => {
-            const colors = nodeColor(n.role);
-            const label =
-              n.name.length > 14 ? `${n.name.slice(0, 12)}…` : n.name;
+            const c = COLORS[n.role];
+            const label = n.name.length > 16 ? `${n.name.slice(0, 14)}…` : n.name;
             const isCurrent = n.role === "current";
 
             return (
               <g
                 key={n.id}
-                className="cursor-pointer transition-opacity duration-200 hover:opacity-90"
+                className="cursor-pointer"
                 onClick={() => onSelectNode(n.id)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -191,18 +213,19 @@ export function ConnectionMap({ node, onSelectNode }: ConnectionMapProps) {
                   y={n.y - 18}
                   width={NODE_R * 2}
                   height={36}
-                  rx={8}
-                  fill={colors.fill}
-                  stroke={colors.stroke}
-                  strokeWidth={isCurrent ? 2 : 1}
+                  rx={10}
+                  fill={c.fill}
+                  stroke={c.stroke}
+                  strokeWidth={isCurrent ? 2 : 1.25}
+                  filter={isCurrent ? "url(#glow)" : undefined}
                 />
                 <text
                   x={n.x}
                   y={n.y + 4}
                   textAnchor="middle"
                   fontSize={11}
-                  fontWeight={isCurrent ? 600 : 400}
-                  fill="var(--color-foreground)"
+                  fontWeight={isCurrent ? 700 : 500}
+                  fill={c.text}
                   style={{ pointerEvents: "none" }}
                 >
                   {label}

@@ -13,48 +13,54 @@ export function WalkthroughSteps({ steps }: WalkthroughStepsProps) {
   const sorted = [...steps].sort((a, b) => a.step - b.step);
 
   return (
-    <section
-      className="rounded-xl p-5 lg:p-6"
-      style={{
-        background: "var(--color-surface)",
-        border: "1px solid color-mix(in srgb, var(--color-border) 40%, transparent)",
-      }}
-      aria-label="Step-by-step walkthrough"
-    >
+    <section className="card" aria-label="Step-by-step walkthrough">
       <div className="flex items-center gap-2 mb-5">
-        <ListOrdered className="w-4 h-4 text-primary" aria-hidden="true" />
-        <h3
-          className="text-sm font-semibold text-foreground"
-          style={{ fontFamily: "var(--font-heading)" }}
-        >
-          Step-by-step walkthrough
-        </h3>
+        <ListOrdered
+          className="w-4 h-4 text-[#7AE2CF]"
+          aria-hidden="true"
+        />
+        <h3 className="section-label">Step-by-step walkthrough</h3>
       </div>
 
-      <ol className="space-y-5">
+      <ol className="space-y-6 relative">
+        <span
+          className="absolute left-4 top-2 bottom-2 w-px"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(122,226,207,0.5), rgba(122,226,207,0.05))",
+          }}
+          aria-hidden="true"
+        />
+
         {sorted.map((step) => (
-          <li key={step.step} className="flex gap-4">
+          <li key={step.step} className="relative flex gap-4">
             <span
-              className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
+              className="relative z-10 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
               style={{
-                background: "color-mix(in srgb, var(--color-primary) 15%, var(--color-surface))",
-                color: "var(--color-primary)",
-                border: "1px solid color-mix(in srgb, var(--color-primary) 30%, transparent)",
+                background: "rgba(7,122,125,0.4)",
+                color: "#FDEB9E",
+                border: "1px solid rgba(253,235,158,0.5)",
+                boxShadow: "0 0 0 3px rgba(6,32,43,1)",
               }}
               aria-hidden="true"
             >
               {step.step}
             </span>
             <div className="flex-1 min-w-0 pt-0.5">
-              <h4
-                className="text-base font-semibold text-foreground mb-1"
-                style={{ fontFamily: "var(--font-heading)" }}
-              >
+              <h4 className="heading-display text-base font-semibold text-foreground mb-1.5">
                 {step.title}
               </h4>
-              <p className="text-sm text-foreground/80 leading-relaxed">{step.body}</p>
+              <p className="text-sm text-[color:var(--color-foreground)]/85 leading-relaxed">
+                {step.body}
+              </p>
               {step.formula && (
-                <div className="mt-3 overflow-x-auto p-3 rounded-lg bg-muted/40">
+                <div
+                  className="mt-3 overflow-x-auto p-3 rounded-lg"
+                  style={{
+                    background: "rgba(6,32,43,0.6)",
+                    border: "1px solid rgba(122,226,207,0.2)",
+                  }}
+                >
                   <BlockMath math={step.formula} />
                 </div>
               )}

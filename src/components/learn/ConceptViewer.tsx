@@ -1,34 +1,16 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { AlertCircle, BookOpen, FlaskConical } from "lucide-react";
+import { AlertTriangle, BookOpen, GitCompare, Sparkles } from "lucide-react";
 import { getNodeIdByName } from "@/data/taxonomy";
-import { KIND_LABEL, NON_LAYER_KINDS, type TaxonomyNode } from "@/data/types";
+import {
+  KIND_LABEL,
+  NON_LAYER_KINDS,
+  type TaxonomyNode,
+} from "@/data/types";
 import { MathBlock } from "@/components/explore/MathBlock";
 import { Breadcrumbs } from "@/components/explore/Breadcrumbs";
-import { NodeNews } from "@/components/feed/NodeNews";
 import { AnalogyCard } from "./AnalogyCard";
-import { DataFlowPanel } from "./DataFlowPanel";
 import { WalkthroughSteps } from "./WalkthroughSteps";
-
-const MermaidDiagram = dynamic(
-  () => import("./MermaidDiagram").then((m) => m.MermaidDiagram),
-  {
-    ssr: false,
-    loading: () => (
-      <div
-        className="rounded-xl min-h-[180px] flex items-center justify-center text-sm text-muted-foreground"
-        style={{
-          background: "var(--color-surface)",
-          border: "1px solid color-mix(in srgb, var(--color-border) 40%, transparent)",
-        }}
-        role="status"
-      >
-        Loading diagram...
-      </div>
-    ),
-  },
-);
 
 interface ConceptViewerProps {
   node: TaxonomyNode;
@@ -41,50 +23,52 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
   const rich = node.rich;
 
   return (
-    <article className="space-y-6 lg:space-y-8">
+    <article className="space-y-6 lg:space-y-7 fade-in">
       <Breadcrumbs path={path} onSelectNode={onSelectNode} />
 
-      <header className="space-y-3 pb-2 border-b" style={{ borderColor: "color-mix(in srgb, var(--color-border) 30%, transparent)" }}>
+      <header className="space-y-4 pb-5 border-b border-[rgba(122,226,207,0.16)]">
         <div className="flex items-center gap-3 flex-wrap">
-          <h1
-            className="text-2xl lg:text-3xl font-semibold text-foreground"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            {node.name}
-          </h1>
-          <span className="badge badge-primary">{KIND_LABEL[node.kind]}</span>
+          <span className="badge badge-primary">
+            <Sparkles className="w-3 h-3 mr-1" aria-hidden="true" />
+            {KIND_LABEL[node.kind]}
+          </span>
+          {rich?.analogy && (
+            <span className="badge badge-highlight">Analogy inside</span>
+          )}
         </div>
-        <p className="text-foreground/80 leading-relaxed text-base lg:text-lg">{node.one}</p>
+        <h1
+          className="heading-display text-3xl lg:text-4xl font-semibold text-foreground leading-tight"
+        >
+          {node.name}
+        </h1>
+        <p className="text-[color:var(--color-foreground)]/85 leading-relaxed text-base lg:text-lg max-w-2xl">
+          {node.one}
+        </p>
       </header>
 
       {isNonLayer && (
         <div
-          className="rounded-xl p-4 text-sm flex gap-3"
+          className="rounded-xl p-4 flex gap-3"
           style={{
-            background: "color-mix(in srgb, var(--color-accent) 10%, var(--color-surface))",
-            border: "1px solid color-mix(in srgb, var(--color-accent) 30%, transparent)",
+            background: "rgba(253,235,158,0.08)",
+            border: "1px solid rgba(253,235,158,0.35)",
           }}
         >
-          <AlertCircle className="w-5 h-5 shrink-0 text-accent" aria-hidden="true" />
+          <AlertTriangle
+            className="w-5 h-5 shrink-0 text-[#FDEB9E]"
+            aria-hidden="true"
+          />
           <div>
-            <p className="font-semibold" style={{ fontFamily: "var(--font-heading)" }}>
-              Not a layer
-            </p>
-            <p className="mt-1 text-foreground/80">
-              This is a {KIND_LABEL[node.kind].toLowerCase()} — an edge or action that spans
-              layers, not a level in the hierarchy.
+            <p className="font-semibold text-[#FDEB9E]">Not a layer</p>
+            <p className="mt-1 text-sm text-[color:var(--color-foreground)]/80">
+              This is a {KIND_LABEL[node.kind].toLowerCase()} — an edge or action
+              that spans layers, not a level in the hierarchy.
             </p>
           </div>
         </div>
       )}
 
       {rich?.analogy && <AnalogyCard analogy={rich.analogy} />}
-
-      {rich?.diagram && <MermaidDiagram source={rich.diagram} title="Architecture diagram" />}
-
-      {rich?.dataFlow && rich.dataFlow.length > 0 && (
-        <DataFlowPanel edges={rich.dataFlow} />
-      )}
 
       {rich?.walkthrough && rich.walkthrough.length > 0 && (
         <WalkthroughSteps steps={rich.walkthrough} />
@@ -93,29 +77,27 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
       {node.math && <MathBlock math={node.math} />}
 
       {rich?.visualExample && (
-        <section
-          className="rounded-xl p-5 lg:p-6"
-          style={{
-            background: "var(--color-surface)",
-            border: "1px solid color-mix(in srgb, var(--color-border) 40%, transparent)",
-          }}
-        >
+        <section className="card">
           <div className="flex items-center gap-2 mb-3">
-            <FlaskConical className="w-4 h-4 text-accent" aria-hidden="true" />
+            <BookOpen className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
             <h2 className="section-label">Real-world example</h2>
           </div>
-          <p className="text-sm text-foreground/85 leading-relaxed">{rich.visualExample}</p>
+          <p className="text-sm text-[color:var(--color-foreground)]/85 leading-relaxed">
+            {rich.visualExample}
+          </p>
         </section>
       )}
 
       {node.differs && (
-        <div className="card">
-          <div className="flex items-center gap-2 mb-2">
-            <BookOpen className="w-4 h-4 text-primary" aria-hidden="true" />
-            <p className="section-label">How it differs</p>
+        <section className="card">
+          <div className="flex items-center gap-2 mb-3">
+            <GitCompare className="w-4 h-4 text-[#FDEB9E]" aria-hidden="true" />
+            <h2 className="section-label">How it differs</h2>
           </div>
-          <p className="text-sm text-foreground/80 leading-relaxed">{node.differs}</p>
-        </div>
+          <p className="text-sm text-[color:var(--color-foreground)]/85 leading-relaxed">
+            {node.differs}
+          </p>
+        </section>
       )}
 
       {node.ex && node.ex.length > 0 && (
@@ -147,7 +129,7 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
                   {linkName}
                 </button>
               ) : (
-                <span key={linkName} className="badge opacity-50">
+                <span key={linkName} className="badge opacity-60">
                   {linkName}
                 </span>
               );
@@ -173,8 +155,6 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
           </div>
         </section>
       )}
-
-      <NodeNews nodeId={node.id} />
     </article>
   );
 }

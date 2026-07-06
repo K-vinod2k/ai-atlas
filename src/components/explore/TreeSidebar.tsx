@@ -128,12 +128,12 @@ export function TreeSidebar({
             <button
               type="button"
               onClick={() => selectNode(n.id)}
-              className={`w-full flex items-center gap-1.5 px-2 py-2 rounded-lg text-left text-sm cursor-pointer transition-colors duration-200 ${
+              className={`relative w-full flex items-center gap-1.5 px-2 py-2 rounded-lg text-left text-sm cursor-pointer transition-all duration-200 ${
                 isSelected
-                  ? "bg-primary/10 text-primary font-semibold"
-                  : "text-foreground/80 hover:bg-primary/5"
+                  ? "tree-item-selected"
+                  : "text-[color:var(--color-foreground)]/80 hover:bg-[rgba(122,226,207,0.06)] hover:text-[#7AE2CF]"
               }`}
-              style={{ paddingLeft: depth * 16 + 8 }}
+              style={{ paddingLeft: depth * 14 + 10 }}
               aria-current={isSelected ? "page" : undefined}
             >
               {hasChildren ? (
@@ -150,7 +150,7 @@ export function TreeSidebar({
                       toggle(n.id);
                     }
                   }}
-                  className="w-5 h-5 flex items-center justify-center shrink-0 text-muted-foreground cursor-pointer"
+                  className="w-5 h-5 flex items-center justify-center shrink-0 cursor-pointer text-[color:var(--color-muted-foreground)] hover:text-[#7AE2CF]"
                   aria-label={isOpen ? "Collapse" : "Expand"}
                 >
                   {isOpen ? (
@@ -162,7 +162,13 @@ export function TreeSidebar({
               ) : (
                 <span className="w-5 h-5 shrink-0" aria-hidden="true" />
               )}
-              <span className={isHit ? "font-semibold text-primary" : ""}>{n.name}</span>
+              <span
+                className={
+                  isHit ? "font-semibold text-[#FDEB9E]" : ""
+                }
+              >
+                {n.name}
+              </span>
             </button>
             {hasChildren && isOpen && renderLevel(childNodes, depth + 1)}
           </div>
@@ -177,14 +183,14 @@ export function TreeSidebar({
     : true;
 
   return (
-    <div className="flex flex-col h-full bg-surface">
+    <div className="flex flex-col h-full">
       <div
-        className="p-4 border-b space-y-3"
-        style={{ borderColor: "color-mix(in srgb, var(--color-border) 40%, transparent)" }}
+        className="p-3 border-b space-y-2.5"
+        style={{ borderColor: "rgba(122,226,207,0.14)" }}
       >
         <div className="relative">
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none"
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-[color:var(--color-muted-foreground)]"
             aria-hidden="true"
           />
           <input
@@ -193,16 +199,22 @@ export function TreeSidebar({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search terms..."
             aria-label="Search taxonomy terms"
-            className="input-field pl-9"
+            className="input-field pl-9 py-2"
           />
         </div>
-        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter by kind">
+        <div
+          className="flex flex-wrap gap-1"
+          role="group"
+          aria-label="Filter by kind"
+        >
           {KIND_OPTIONS.map((k) => (
             <button
               key={k.id}
               type="button"
               onClick={() => setKindFilter(k.id)}
-              className={`filter-pill ${kindFilter === k.id ? "filter-pill-active" : ""}`}
+              className={`filter-pill ${
+                kindFilter === k.id ? "filter-pill-active" : ""
+              }`}
               aria-pressed={kindFilter === k.id}
             >
               {k.label}
@@ -210,9 +222,9 @@ export function TreeSidebar({
           ))}
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto p-2">
+      <div className="flex-1 overflow-y-auto py-2 pr-1 pl-1.5">
         {!hasResults ? (
-          <p className="px-3 py-6 text-sm text-muted-foreground text-center">
+          <p className="px-3 py-6 text-sm text-[color:var(--color-muted-foreground)] text-center">
             No terms match your search.
           </p>
         ) : (

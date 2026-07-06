@@ -11,37 +11,37 @@ interface MathBlockProps {
 
 export function MathBlock({ math }: MathBlockProps) {
   return (
-    <section
-      className="rounded-xl p-5 lg:p-6"
-      style={{
-        background: "color-mix(in srgb, var(--color-muted) 60%, var(--color-surface))",
-        border: "1px solid color-mix(in srgb, var(--color-border) 40%, transparent)",
-      }}
-    >
+    <section className="card">
       <div className="flex items-center gap-2 mb-3">
-        <Sigma className="w-4 h-4 text-primary" aria-hidden="true" />
-        <h3
-          className="text-sm font-semibold text-foreground"
-          style={{ fontFamily: "var(--font-heading)" }}
-        >
-          {math.title}
-        </h3>
+        <Sigma className="w-4 h-4 text-[#7AE2CF]" aria-hidden="true" />
+        <h3 className="section-label">{math.title}</h3>
       </div>
-      <div className="overflow-x-auto mb-4 p-3 rounded-lg bg-surface">
+      <div
+        className="overflow-x-auto mb-4 p-4 rounded-xl"
+        style={{
+          background: "rgba(6,32,43,0.75)",
+          border: "1px solid rgba(122,226,207,0.22)",
+        }}
+      >
         <BlockMath math={math.formula} />
       </div>
-      <p className="text-sm text-foreground/80 mb-5">{math.summary}</p>
+      <p className="text-sm text-[color:var(--color-foreground)]/85 leading-relaxed mb-5">
+        {math.summary}
+      </p>
       <div className="space-y-2">
         <p className="section-label">Symbols</p>
         <dl className="grid gap-2 mt-2">
           {math.symbols.map((s) => (
             <div key={s.symbol} className="flex gap-3 text-sm">
               <dt
-                className="font-mono text-primary font-medium min-w-[3rem]"
+                className="font-mono font-semibold min-w-[3rem]"
+                style={{ color: "#FDEB9E" }}
               >
                 {s.symbol}
               </dt>
-              <dd className="text-foreground/80">{s.meaning}</dd>
+              <dd className="text-[color:var(--color-foreground)]/85">
+                {s.meaning}
+              </dd>
             </div>
           ))}
         </dl>
