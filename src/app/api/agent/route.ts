@@ -9,7 +9,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "messages required" }, { status: 400 });
     }
 
-    const provider = getAgentProvider();
+    const provider = await getAgentProvider();
     const response = await provider.chat(body.messages);
     return NextResponse.json({
       content: response.content,

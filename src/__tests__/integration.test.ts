@@ -7,7 +7,8 @@ import {
   getPath,
 } from "@/data/taxonomy";
 import { MATH_BY_NODE_ID } from "@/data/math-content";
-import { LocalGuideProvider } from "@/lib/agent/local-guide";
+import { GraphGuideProvider } from "@/lib/agent/chain";
+import { findByName, graphStats, path, subgraph } from "@/lib/kg";
 import { tagFeedItem } from "@/lib/feed/tagger";
 import { refreshFeed } from "@/lib/feed/refresh";
 
@@ -42,20 +43,53 @@ describe("AI Atlas integration", () => {
     expect(getNodeIdByName("Embeddings")).toBe("embeddings");
   });
 
-  it("local guide explains a node", async () => {
-    const guide = new LocalGuideProvider();
+  it("knowledge graph builds with expected edge types", () => {
+    const stats = graphStats();
+    expect(stats.nodes).toBeGreaterThan(200);
+    expect(stats.byPredicate.parent_of).toBe(stats.nodes - 1);
+    expect(stats.byPredicate.child_of).toBe(stats.nodes - 1);
+    expect(stats.byPredicate.connects_to).toBeGreaterThan(0);
+    expect(stats.byPredicate.differs_from).toBeGreaterThan(0);
+    expect(stats.byPredicate.example_of).toBeGreaterThan(0);
+    expect(stats.byPredicate.related_to).toBeGreaterThan(0);
+  });
+
+  it("kg entity linking resolves aliases and examples", () => {
+    expect(findByName("attention")).toBe("attention");
+    expect(findByName("XGBoost")).toBe("gbm");
+    expect(findByName("LoRA")).toBe("peft");
+  });
+
+  it("kg finds paths and subgraphs", () => {
+    const route = path("attention", "kg");
+    expect(route[0]).toBe("attention");
+    expect(route[route.length - 1]).toBe("kg");
+    expect(subgraph("transformer", 1).nodeIds.length).toBeGreaterThan(3);
+  });
+
+  it("graph guide explains a node with graph context", async () => {
+    const guide = new GraphGuideProvider();
     const res = await guide.chat([{ role: "user", content: "explain attention" }]);
     expect(res.content).toContain("Attention");
+    expect(res.content).toContain("In the graph");
     expect(res.navigateTo).toBe("attention");
   });
 
-  it("local guide compares two terms", async () => {
-    const guide = new LocalGuideProvider();
+  it("graph guide compares two terms", async () => {
+    const guide = new GraphGuideProvider();
     const res = await guide.chat([
       { role: "user", content: "compare RAG vs Fine-tuning" },
     ]);
     expect(res.content).toContain("RAG");
     expect(res.content.toLowerCase()).toMatch(/fine/);
+  });
+
+  it("graph guide answers relatedness via graph path", async () => {
+    const guide = new GraphGuideProvider();
+    const res = await guide.chat([
+      { role: "user", content: "how is attention related to knowledge graph" },
+    ]);
+    expect(res.content.toLowerCase()).toContain("hop");
   });
 
   it("feed tagger maps keywords to nodes", () => {

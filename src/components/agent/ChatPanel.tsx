@@ -85,7 +85,7 @@ export function ChatPanel({ compact = false, onNavigate }: ChatPanelProps) {
             Guide
           </h2>
           <p className="text-[11px] text-[color:var(--color-muted-foreground)]">
-            Offline local guide (no API key)
+            Knowledge-graph guide (works offline)
           </p>
         </div>
       </div>

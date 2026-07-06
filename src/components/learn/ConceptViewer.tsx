@@ -19,6 +19,7 @@ import {
 } from "@/data/types";
 import { MathBlock } from "@/components/explore/MathBlock";
 import { Breadcrumbs } from "@/components/explore/Breadcrumbs";
+import { NodeTriples } from "@/components/graph/NodeTriples";
 import { ProgressButtons } from "@/components/progress/ProgressButtons";
 import { AnalogyCard } from "./AnalogyCard";
 import { WalkthroughSteps } from "./WalkthroughSteps";
@@ -131,6 +132,8 @@ export function ConceptViewer({ node, path, onSelectNode }: ConceptViewerProps) 
           </div>
         </section>
       )}
+
+      <NodeTriples nodeId={node.id} onSelectNode={onSelectNode} />
 
       {node.links && node.links.length > 0 && (
         <section>

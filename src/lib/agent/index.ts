@@ -1,37 +1,18 @@
+import { GraphGuideProvider } from "./chain";
+import { resolveChatModel } from "./llm";
 import type { AgentProvider } from "./types";
-import { LocalGuideProvider } from "./local-guide";
 
-class AnthropicProvider implements AgentProvider {
-  name = "anthropic";
+let cachedProvider: AgentProvider | undefined;
 
-  async chat(): Promise<never> {
-    throw new Error(
-      "Anthropic provider requires ANTHROPIC_API_KEY. Set AGENT_PROVIDER=local to use the offline guide.",
-    );
-  }
-}
-
-class OpenAIProvider implements AgentProvider {
-  name = "openai";
-
-  async chat(): Promise<never> {
-    throw new Error(
-      "OpenAI provider requires OPENAI_API_KEY. Set AGENT_PROVIDER=local to use the offline guide.",
-    );
-  }
-}
-
-export function getAgentProvider(): AgentProvider {
-  const provider = process.env.AGENT_PROVIDER ?? "local";
-
-  switch (provider) {
-    case "anthropic":
-      if (!process.env.ANTHROPIC_API_KEY) return new LocalGuideProvider();
-      return new AnthropicProvider();
-    case "openai":
-      if (!process.env.OPENAI_API_KEY) return new LocalGuideProvider();
-      return new OpenAIProvider();
-    default:
-      return new LocalGuideProvider();
-  }
+/**
+ * Returns the knowledge-graph guide agent. The default path is fully
+ * offline (template composition over the KG). When AGENT_PROVIDER is
+ * anthropic/openai/ollama and the matching key/package exists, a
+ * LangChain chat model slots into the same chain for composition.
+ */
+export async function getAgentProvider(): Promise<AgentProvider> {
+  if (cachedProvider) return cachedProvider;
+  const llm = await resolveChatModel();
+  cachedProvider = new GraphGuideProvider(llm);
+  return cachedProvider;
 }

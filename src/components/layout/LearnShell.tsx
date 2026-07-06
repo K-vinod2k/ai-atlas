@@ -9,6 +9,7 @@ import {
   GraduationCap,
   MessageCircle,
   Newspaper,
+  Share2,
   Sparkles,
 } from "lucide-react";
 import { ChatDrawer } from "@/components/agent/ChatDrawer";
@@ -23,6 +24,7 @@ export function LearnShell({ children }: LearnShellProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isLearn = pathname.startsWith("/learn");
+  const isGraph = pathname.startsWith("/graph");
   const isFeed = pathname.startsWith("/feed");
   const isSkillup = pathname.startsWith("/skillup");
   const isProgress = pathname.startsWith("/progress");
@@ -80,6 +82,14 @@ export function LearnShell({ children }: LearnShellProps) {
             >
               <BookOpen className="w-4 h-4" aria-hidden="true" />
               <span className="hidden sm:inline">Learn</span>
+            </Link>
+            <Link
+              href="/graph"
+              className={`nav-link ${isGraph ? "nav-link-active" : ""}`}
+              aria-current={isGraph ? "page" : undefined}
+            >
+              <Share2 className="w-4 h-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Graph</span>
             </Link>
             <Link
               href="/skillup"
