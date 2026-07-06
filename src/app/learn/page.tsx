@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { LearnShell } from "@/components/layout/LearnShell";
 import { LearnWorkspace } from "@/components/learn/LearnWorkspace";
+import { getNodeById } from "@/data/taxonomy";
 
 function LearnFallback() {
   return (
@@ -11,12 +12,25 @@ function LearnFallback() {
   );
 }
 
-export default function LearnPage() {
+interface LearnPageProps {
+  searchParams: Promise<{ node?: string }>;
+}
+
+export default async function LearnPage({ searchParams }: LearnPageProps) {
+  const { node } = await searchParams;
+  const initialNodeId = node && getNodeById(node) ? node : "ai";
+
   return (
-    <LearnShell>
-      <Suspense fallback={<LearnFallback />}>
-        <LearnWorkspace initialNodeId="ai" />
-      </Suspense>
-    </LearnShell>
+    <Suspense
+      fallback={
+        <LearnShell>
+          <LearnFallback />
+        </LearnShell>
+      }
+    >
+      <LearnShell>
+        <LearnWorkspace initialNodeId={initialNodeId} />
+      </LearnShell>
+    </Suspense>
   );
 }

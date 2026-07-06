@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { AlertCircle, BookOpen, FlaskConical } from "lucide-react";
 import { getNodeIdByName } from "@/data/taxonomy";
 import { KIND_LABEL, NON_LAYER_KINDS, type TaxonomyNode } from "@/data/types";
@@ -7,9 +8,27 @@ import { MathBlock } from "@/components/explore/MathBlock";
 import { Breadcrumbs } from "@/components/explore/Breadcrumbs";
 import { NodeNews } from "@/components/feed/NodeNews";
 import { AnalogyCard } from "./AnalogyCard";
-import { MermaidDiagram } from "./MermaidDiagram";
 import { DataFlowPanel } from "./DataFlowPanel";
 import { WalkthroughSteps } from "./WalkthroughSteps";
+
+const MermaidDiagram = dynamic(
+  () => import("./MermaidDiagram").then((m) => m.MermaidDiagram),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="rounded-xl min-h-[180px] flex items-center justify-center text-sm text-muted-foreground"
+        style={{
+          background: "var(--color-surface)",
+          border: "1px solid color-mix(in srgb, var(--color-border) 40%, transparent)",
+        }}
+        role="status"
+      >
+        Loading diagram...
+      </div>
+    ),
+  },
+);
 
 interface ConceptViewerProps {
   node: TaxonomyNode;
