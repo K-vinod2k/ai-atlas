@@ -9,6 +9,12 @@ import {
 import { MATH_BY_NODE_ID } from "@/data/math-content";
 import { GraphGuideProvider } from "@/lib/agent/chain";
 import { findByName, graphStats, path, subgraph } from "@/lib/kg";
+import { NODE_TRIPLES, TRIPLE_COUNT_BY_PREDICATE } from "@/lib/graph/triples";
+import {
+  neighbors as typedNeighbors,
+  pathBetween,
+  pathSentence,
+} from "@/lib/graph/query";
 import { tagFeedItem } from "@/lib/feed/tagger";
 import { refreshFeed } from "@/lib/feed/refresh";
 
@@ -65,6 +71,25 @@ describe("AI Atlas integration", () => {
     expect(route[0]).toBe("attention");
     expect(route[route.length - 1]).toBe("kg");
     expect(subgraph("transformer", 1).nodeIds.length).toBeGreaterThan(3);
+  });
+
+  it("typed display layer refines hierarchy into is_a and part_of", () => {
+    expect(TRIPLE_COUNT_BY_PREDICATE.is_a).toBeGreaterThan(100);
+    expect(TRIPLE_COUNT_BY_PREDICATE.part_of).toBeGreaterThan(10);
+    // Components/units attach with part_of: attention block is part of the transformer block.
+    const attentionParent = NODE_TRIPLES.find(
+      (t) => t.subject === "attention" && t.object === "block",
+    );
+    expect(attentionParent?.predicate).toBe("part_of");
+  });
+
+  it("typed path prefers curated edges and renders a sentence", () => {
+    const steps = pathBetween("peft", "weight");
+    expect(steps).not.toBeNull();
+    const sentence = pathSentence(steps!);
+    expect(sentence).toContain("PEFT");
+    expect(sentence).toContain("Weight & Bias");
+    expect(typedNeighbors("kg").length).toBeGreaterThan(5);
   });
 
   it("graph guide explains a node with graph context", async () => {

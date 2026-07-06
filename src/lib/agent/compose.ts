@@ -1,6 +1,12 @@
 import { getNodeById, getPath, searchNodes, taxonomyIndex } from "@/data/taxonomy";
 import { KIND_LABEL } from "@/data/types";
 import { GRAPH, graphStats, neighbors, path as kgPath, PREDICATE_LABEL } from "@/lib/kg";
+import {
+  neighbors as typedNeighbors,
+  pathBetween as typedPath,
+  stepLabel,
+} from "@/lib/graph/query";
+import { PREDICATE_LABEL as TYPED_PREDICATE_LABEL } from "@/lib/graph/triples";
 import type { ParsedQuery } from "./entities";
 import { graphFacts, nodeName, nodeNames } from "./graph-facts";
 import type { AgentResponse } from "./types";
@@ -94,6 +100,27 @@ function pathBetween(parsed: ParsedQuery): AgentResponse {
   const missing = parsed.entities.filter((e) => !e.nodeId).map((e) => e.term);
   if (missing.length > 0 || !a.nodeId || !b.nodeId) return notFound(missing);
 
+  // Typed path (is_a / part_of / uses / ...) preferring curated edges.
+  const steps = typedPath(a.nodeId, b.nodeId);
+  if (steps && steps.length > 0) {
+    const hops = steps.map(
+      (s, i) => `${i + 1}. **${nodeName(s.from)}** ${stepLabel(s)} **${nodeName(s.to)}**`,
+    );
+    return {
+      content: [
+        `**${nodeName(a.nodeId)}** connects to **${nodeName(b.nodeId)}** in ${steps.length} hop${steps.length > 1 ? "s" : ""}:`,
+        "",
+        ...hops,
+        "",
+        `Trace it visually: /graph?node=${a.nodeId}`,
+      ].join("\n"),
+    };
+  }
+  if (steps !== null) {
+    return { content: `Those both resolve to **${nodeName(a.nodeId)}** — same node in the graph.` };
+  }
+
+  // Fallback: untyped BFS over the raw store (covers mined-only connections).
   const route = kgPath(a.nodeId, b.nodeId);
   if (route.length === 0) {
     return {
@@ -107,6 +134,47 @@ function pathBetween(parsed: ParsedQuery): AgentResponse {
       "",
       ...hops,
     ].join("\n"),
+  };
+}
+
+const MAX_MINED_CONNECTIONS = 6;
+
+/** Typed neighbor list for "what connects to X". */
+function connectionsOf(parsed: ParsedQuery): AgentResponse {
+  const entity = parsed.entities[0];
+  if (!entity?.nodeId) return notFound([entity?.term ?? parsed.raw]);
+  const nodeId = entity.nodeId;
+  const name = nodeName(nodeId);
+
+  const all = typedNeighbors(nodeId);
+  const curated = all.filter((n) => n.predicate !== "related_to");
+  const mined = all
+    .filter((n) => n.predicate === "related_to")
+    .sort((a, b) => (b.triple.weight ?? 0) - (a.triple.weight ?? 0))
+    .slice(0, MAX_MINED_CONNECTIONS);
+  const shown = [...curated, ...mined];
+  if (shown.length === 0) {
+    return { content: `**${name}** has no typed relations in the knowledge graph yet.` };
+  }
+
+  const lines = shown.map((n) => {
+    const label = TYPED_PREDICATE_LABEL[n.predicate];
+    return n.direction === "out"
+      ? `- ${name} *${label}* \u2192 **${nodeName(n.id)}**`
+      : `- **${nodeName(n.id)}** *${label}* \u2192 ${name}`;
+  });
+
+  const hiddenMined = all.length - shown.length;
+  return {
+    content: [
+      `**${name}** has ${all.length} typed relation${all.length === 1 ? "" : "s"}:`,
+      "",
+      ...lines,
+      ...(hiddenMined > 0 ? ["", `(+${hiddenMined} more mined mentions)`] : []),
+      "",
+      `See them visually: /graph?node=${nodeId}`,
+    ].join("\n"),
+    navigateTo: nodeId,
   };
 }
 
@@ -156,6 +224,7 @@ function help(): AgentResponse {
       "- **explain [node]** \u2014 definition, graph context, examples, math",
       "- **compare X vs Y** \u2014 side-by-side differences with the graph path",
       "- **how is X related to Y** \u2014 shortest path through the graph",
+      "- **what connects to X** \u2014 typed neighbor list from the graph",
       "- **find / search [term]** \u2014 lookup nodes",
       "- **where does [term] fit** \u2014 its place in the hierarchy",
       "- **navigate [node]** \u2014 open a node page",
@@ -187,6 +256,8 @@ export function composeResponse(parsed: ParsedQuery): AgentResponse {
       return compareNodes(parsed);
     case "path":
       return pathBetween(parsed);
+    case "connections":
+      return connectionsOf(parsed);
     case "route":
       return routeNode(parsed);
     case "search":

@@ -5,6 +5,7 @@ export type Intent =
   | "explain"
   | "compare"
   | "path"
+  | "connections"
   | "search"
   | "route"
   | "navigate"
@@ -48,6 +49,12 @@ const PATH_PATTERNS = [
   /path\s+(?:from|between)\s+(.+?)\s+(?:to|and)\s+(.+)/i,
 ];
 
+const CONNECTIONS_PATTERNS = [
+  /what\s+connects\s+to\s+(.+)/i,
+  /what\s+(?:is|are)\s+(.+?)\s+connected\s+to\s*\??$/i,
+  /(?:connections?|neighbou?rs?)\s+(?:of|for)\s+(.+)/i,
+];
+
 /** Deterministic query parsing: intent classification + entity extraction against the KG alias index. */
 export function parseQuery(raw: string): ParsedQuery {
   const input = raw.trim();
@@ -60,6 +67,13 @@ export function parseQuery(raw: string): ParsedQuery {
     const m = input.match(p);
     if (m) {
       return { raw: input, intent: "path", entities: [ref(m[1]), ref(m[2])] };
+    }
+  }
+
+  for (const p of CONNECTIONS_PATTERNS) {
+    const m = input.match(p);
+    if (m) {
+      return { raw: input, intent: "connections", entities: [ref(m[1])] };
     }
   }
 
