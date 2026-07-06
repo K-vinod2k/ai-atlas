@@ -5,13 +5,16 @@ import {
   BookOpen,
   Clock,
   Code2,
+  ExternalLink,
   FileText,
   GraduationCap,
+  Library,
   Map,
 } from "lucide-react";
 import { LearnShell } from "@/components/layout/LearnShell";
 import { getSkillupByTopic } from "@/data/skillup";
 import { getChaptersByPart, TEXTBOOK_CHAPTERS } from "@/data/vlsi-textbook";
+import { REFERENCE_BOOKS } from "@/data/reference-books";
 import { SKILLUP_KIND_LABEL, type SkillupKind } from "@/data/types";
 
 export const metadata: Metadata = {
@@ -178,6 +181,54 @@ export default function SkillupPage() {
               </ol>
             </section>
           ))}
+        </div>
+
+        {/* ---- Reference bookshelf ---- */}
+        <div className="space-y-6">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <Library className="w-5 h-5 text-[#7FA3C0]" aria-hidden="true" />
+              <h2 className="heading-display text-2xl font-semibold">
+                Reference bookshelf
+              </h2>
+            </div>
+            <p className="text-sm text-[color:var(--color-muted-foreground)] max-w-2xl">
+              Your digital copies on Google Drive. Textbook chapters link into
+              these under &ldquo;Further reading&rdquo;.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {REFERENCE_BOOKS.map((book) => (
+              <a
+                key={book.id}
+                href={book.driveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card card-interactive flex flex-col gap-2 group"
+              >
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="badge">
+                    <BookOpen className="w-3 h-3 mr-1" aria-hidden="true" />
+                    {book.kind === "textbook" ? "Textbook" : "Guide"}
+                  </span>
+                  <span className="badge badge-highlight">{book.edition}</span>
+                </div>
+                <h3 className="heading-display text-lg font-semibold leading-snug group-hover:text-[#A7C4DB] transition-colors duration-200">
+                  {book.title}
+                </h3>
+                <p className="text-xs text-[color:var(--color-subtle-foreground)]">
+                  {book.author}
+                </p>
+                <p className="text-sm text-[color:var(--color-muted-foreground)] leading-relaxed">
+                  {book.description}
+                </p>
+                <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-[#7FA3C0] group-hover:text-[#A7C4DB] transition-colors duration-200">
+                  Open in Drive
+                  <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </LearnShell>

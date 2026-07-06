@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, BookOpen, Clock, Link2, List } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Clock,
+  ExternalLink,
+  Library,
+  Link2,
+  List,
+} from "lucide-react";
 import { LearnShell } from "@/components/layout/LearnShell";
 import { ChapterBody } from "@/components/skillup/ChapterBody";
 import { extractToc } from "@/components/skillup/heading-utils";
@@ -12,6 +21,7 @@ import {
   getPart,
 } from "@/data/vlsi-textbook";
 import { getNodeById } from "@/data/taxonomy";
+import { getReferenceBook } from "@/data/reference-books";
 
 interface ChapterPageProps {
   params: Promise<{ slug: string }>;
@@ -45,6 +55,11 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
   const relatedNodes = (chapter.relatedNodeIds ?? [])
     .map((id) => getNodeById(id)?.node)
     .filter((n): n is NonNullable<typeof n> => n !== undefined);
+
+  const references = (chapter.references ?? []).map((ref) => ({
+    ...ref,
+    book: getReferenceBook(ref.bookId),
+  }));
 
   return (
     <LearnShell>
@@ -122,6 +137,49 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
                 </Link>
               ))}
             </div>
+          </section>
+        )}
+
+        {references.length > 0 && (
+          <section className="card">
+            <div className="flex items-center gap-2 mb-1">
+              <Library className="w-4 h-4 text-[#7FA3C0]" aria-hidden="true" />
+              <h2 className="section-label">Further reading</h2>
+            </div>
+            <p className="text-xs text-[color:var(--color-subtle-foreground)] mb-4">
+              From your reference bookshelf. Links open your Drive copy in a
+              new tab.
+            </p>
+            <ul className="space-y-4">
+              {references.map(({ book, chapters, note }) => (
+                <li
+                  key={book.id}
+                  className="flex flex-col gap-1 pb-4 border-b border-[rgba(138,122,109,0.2)] last:border-b-0 last:pb-0"
+                >
+                  <div className="flex items-baseline gap-2 flex-wrap">
+                    <a
+                      href={book.driveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="heading-display font-semibold text-[#7FA3C0] hover:text-[#A7C4DB] transition-colors duration-200 inline-flex items-center gap-1.5"
+                    >
+                      {book.title}
+                      <ExternalLink
+                        className="w-3.5 h-3.5 shrink-0"
+                        aria-hidden="true"
+                      />
+                    </a>
+                    <span className="badge badge-highlight">{chapters}</span>
+                  </div>
+                  <p className="text-xs text-[color:var(--color-subtle-foreground)]">
+                    {book.author} · {book.edition}
+                  </p>
+                  <p className="text-sm text-[color:var(--color-muted-foreground)] leading-relaxed">
+                    {note}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 

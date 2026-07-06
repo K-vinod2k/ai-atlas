@@ -4,8 +4,14 @@ import { PART2_CHAPTERS } from "./part2-digital-design";
 import { PART3_CHAPTERS } from "./part3-physical-design";
 import { PART4_CHAPTERS } from "./part4-verification";
 import { PART5_CHAPTERS } from "./part5-ai-vlsi";
+import { CHAPTER_REFERENCES } from "./references";
 
-export type { TextbookChapter, TextbookPart, TextbookPartId } from "./types";
+export type {
+  ChapterReference,
+  TextbookChapter,
+  TextbookPart,
+  TextbookPartId,
+} from "./types";
 
 export const TEXTBOOK_PARTS: TextbookPart[] = [
   {
@@ -51,7 +57,12 @@ export const TEXTBOOK_CHAPTERS: TextbookChapter[] = [
   ...PART3_CHAPTERS,
   ...PART4_CHAPTERS,
   ...PART5_CHAPTERS,
-].sort((a, b) => a.order - b.order);
+]
+  .map((chapter) => ({
+    ...chapter,
+    references: CHAPTER_REFERENCES[chapter.slug],
+  }))
+  .sort((a, b) => a.order - b.order);
 
 const BY_SLUG = new Map<string, TextbookChapter>(
   TEXTBOOK_CHAPTERS.map((c) => [c.slug, c]),
